@@ -1,0 +1,28 @@
+﻿{
+  "path": {
+    "bower": {
+      "src": "bower_components",
+      "dest": "lib"
+    },
+    "js": {
+      "src": "script",
+      "dest": "public/script"
+    },
+    "less": {
+      "src": "style",
+      "dest": "public/style"
+    }
+  },
+
+  "bundle": {
+    "bower": {
+      "#dest#/jquery": "#src#/jquery/dist/jquery*.{js,map}"
+    },
+    "less": {
+      "#dest#/main": [ "#src#/main.less" ]
+    },
+    "js": {
+      "#dest#/main": [ "#src#/main.js" ]
+    }
+  }
+}
