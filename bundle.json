@@ -6,11 +6,11 @@
     },
     "js": {
       "src": "script",
-      "dest": "public/script"
+      "dest": "public/wwwroot/script"
     },
     "less": {
       "src": "style",
-      "dest": "public/style"
+      "dest": "public/wwwroot/style"
     }
   },
 
