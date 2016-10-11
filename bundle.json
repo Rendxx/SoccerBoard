@@ -2,7 +2,7 @@
   "path": {
     "bower": {
       "src": "bower_components",
-      "dest": "lib"
+      "dest": "public/wwwroot/lib"
     },
     "js": {
       "src": "script",
