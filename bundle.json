@@ -16,7 +16,9 @@
 
   "bundle": {
     "bower": {
-      "#dest#/jquery": "#src#/jquery/dist/jquery*.{js,map}"
+      "#dest#/jquery/": "#src#/jquery/dist/jquery*.{js,map}",
+      "#dest#/react/": "#src#/react/react*.{js,map}",
+      "#dest#/babel-standalone/": "#src#/babel-standalone/babel*.{js,map}"
     },
     "less": {
       "#dest#/main": [ "#src#/main.less" ]
