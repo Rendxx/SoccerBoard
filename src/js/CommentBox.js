@@ -1,8 +1,4 @@
-// tutorial1.js
-var data = [
-  {id: 1, author: "Pete Hunt", text: "This is one comment"},
-  {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
-];
+var React = require('react');
 
 var Comment = React.createClass({
   rawMarkup:function (){
@@ -143,7 +139,4 @@ var CommentBox = React.createClass({
   }
 });
 
-ReactDOM.render(
-  <CommentBox url="/api/comments" pollInterval={2000}/>,
-  document.getElementById('main')
-);
+module.exports = CommentBox;
