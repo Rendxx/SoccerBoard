@@ -1,5 +1,6 @@
 var React = require('react');
 var $ = require('jQuery');
+var style = require('board.less');
 
 var Comment = React.createClass({
   rawMarkup:function (){
