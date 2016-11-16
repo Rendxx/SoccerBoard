@@ -13,7 +13,7 @@ module.exports = {
       extractTextPlugin
     ],
     entry: {
-        index : './src/js/main'
+        index : './src/js/Main'
     },
     output: {
         path: 'public/wwwroot/script',
