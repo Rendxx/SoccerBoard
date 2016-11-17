@@ -6,11 +6,13 @@ var SoccerField = require('./SoccerField.js');
 
 var style = require('../less/Main.less');
 
+var fieldStyle={field:'default'};
+
 ReactDOM.render(
   <div id="main">
     <StartScreen />
     <Header />
-    <SoccerField />
+    <SoccerField fieldStyle={fieldStyle}/>
   </div>,
   document.body
 );
