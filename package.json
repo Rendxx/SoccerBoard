@@ -10,18 +10,19 @@
     "express": "^4.4.5"
   },
   "devDependencies": {
-    "webpack": "^1.13.2",
-    "react": "^15.3.2",
-    "less": "*",
-    "react-dom": "*",
-    "babel-loader": "*",
     "babel-core": "*",
+    "babel-loader": "*",
     "babel-preset-react": "*",
-    "jsx-loader": "*",
     "css-loader": "*",
-    "style-loader": "*",
+    "extract-text-webpack-plugin": "*",
+    "jsx-loader": "*",
+    "less": "*",
     "less-loader": "*",
-    "extract-text-webpack-plugin": "*"
+    "react": "^15.3.2",
+    "react-dom": "*",
+    "style-loader": "*",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -35,7 +36,7 @@
     "soccer"
   ],
   "author": "rendxx",
-  "engines" : {
-    "node" : "0.12.x"
+  "engines": {
+    "node": "0.12.x"
   }
 }

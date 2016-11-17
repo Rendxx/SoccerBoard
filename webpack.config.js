@@ -43,7 +43,7 @@ module.exports = {
             {
               test: /\.(png|jpg)$/,
               exclude: /node_modules/,
-              loader: 'url?limit=8192'
+              loader: 'url-loader'
             }
         ],
         noParse: [pathToReact]

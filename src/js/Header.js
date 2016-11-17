@@ -1,6 +1,5 @@
 var React = require('react');
 var style = require('../less/Header.less');
-var img_grass = require('../image/grass-bg.png');
 
 var Header = React.createClass({
   getInitialState: function() {
@@ -12,16 +11,37 @@ var Header = React.createClass({
     this.state.min=true;
   },
   componentDidMount:function(){
-    window.removeEventListener("resize", this.renderBg);
+    window.addEventListener("resize", this.renderBg);
     this.renderBg();
   },
   componentWillUnmount: function() {
     window.removeEventListener("resize", this.renderBg);
   },
   renderBg:function(){
-    this.refs.canvas.width = this.refs.container.offsetWidth;
-    this.refs.canvas.height = this.refs.container.offsetHeight;
+    var w = this.refs.container.offsetWidth;
+    var h = this.refs.container.offsetHeight;
 
+    this.refs.canvas.width = w;
+    this.refs.canvas.height = h;
+		var ctx = this.refs.canvas.getContext('2d');
+    ctx.clearRect(0, 0, w, h);
+
+    ctx.fillStyle = "#eeeeee";
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(w/4,0);
+    ctx.lineTo(w/4-10, h);
+    ctx.lineTo(0, h);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(w/4, -10);
+    ctx.lineTo(w/4-10,h+10);
+    ctx.closePath();
+    ctx.stroke();
   },
   render:function(){
     var className = "header";
@@ -29,10 +49,10 @@ var Header = React.createClass({
     return(
       <div className={className} ref="container">
         <span>SOCCER BOARD</span>
-        <canvas ref="canvas">
+        <canvas ref="canvas"></canvas>
       </div>
     );
   }
 });
 
-module.exports = StartScreen;
+module.exports = Header;
