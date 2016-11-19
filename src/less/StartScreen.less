@@ -4,30 +4,58 @@
   left:0;
   width:100%;
   height:100%;
-  background-color: rgba(255,255,255, 0.75);
+  background-color: rgba(255,255,255, 0.6);
   z-index:20;
 
   .instruction{
     position: absolute;
-    top:35%;
-    left:20%;
-    width:60%;
-    text-align: center;
+    top:60%;
+    left:50%;
+    text-align: left;
     color:#333;
     font-size: 16px;
+    height:72px;
+    width:200px;
+    margin-top: -30px;
+    margin-left: 280px;
 
     span {
       display: block;
-      padding:5px 0;
+      line-height:20px;
+      height:24px;
     }
+  }
 
-    &:after{
-      content:'< click to start >';
-      display: block;
-      width:100%;
-      margin-top:50px;
-      font-size: 40px;
-      color:#333;
-    }
+  &:after{
+    .blink;
+    content:'< click to start >';
+    display: block;
+    width:300px;
+    height:50px;
+    line-height:50px;
+    font-size: 40px;
+    color:#333;
+    position:absolute;
+    top:60%;
+    left:50%;
+    margin-top:-25px;
+    margin-left:-150px;
+    text-align: center;
+  }
+}
+
+.blink {
+  animation: blink-animation 2s steps(20, start) infinite;
+  -webkit-animation: blink-animation 2s steps(20, start) infinite;
+}
+
+@keyframes blink-animation {
+  50% {
+    opacity: 0.3;
+  }
+}
+@-webkit-keyframes blink-animation {
+  50% {
+    opacity: 0.3;
   }
 }

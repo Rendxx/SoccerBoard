@@ -21,7 +21,7 @@
     "react": "^15.3.2",
     "react-dom": "*",
     "style-loader": "*",
-    "url-loader": "^0.5.7",
+    "url-loader": "*",
     "webpack": "^1.13.2"
   },
   "scripts": {
