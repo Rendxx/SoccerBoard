@@ -37,9 +37,10 @@ var Header = React.createClass({
 
     ctx.strokeStyle = "#ffffff";
     ctx.lineWidth = 2;
+    ctx.lineCap = 'square';
     ctx.beginPath();
     ctx.moveTo(w/4, -10);
-    ctx.lineTo(w/4-10,h+10);
+    ctx.lineTo(w/4-10,h);
     ctx.closePath();
     ctx.stroke();
   },
