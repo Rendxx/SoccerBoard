@@ -5,18 +5,18 @@ var img_grassBg = new Image();
 img_grassBg.src = grassBg;
 
 var SoccerBoardTag = React.createClass({
+  hover:function(isHover){
+    this.setState({
+      hover: isHover
+    });
+  },
   getInitialState: function() {
     return {
-      min: false
+      hover: false
     };
-  },
-  minimize:function(){
-    this.state.min=true;
   },
   componentDidMount:function(){
     this.renderBg();
-  },
-  componentWillUnmount: function() {
   },
   renderBg:function(){
     var w = this.refs.container.offsetWidth;
@@ -42,7 +42,7 @@ var SoccerBoardTag = React.createClass({
   },
   render:function(){
     var className = "soccerBoardTag";
-    if (this.state.min) className+=" minimize";
+    if (this.state.hover) className+=" hover";
     return(
       <div className={className} ref="container">
         <span>SOCCER BOARD</span>

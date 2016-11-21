@@ -4,14 +4,21 @@ var style = require('../less/SoccerField.less');
 var SoccerField = React.createClass({
   getInitialState: function() {
     return {
-      min: true
+      min: true,
+      hover: false
     };
   },
   componentDidMount: function (){
   },
+  hover:function(isHover){
+    this.setState({
+      hover: isHover
+    });
+  },
   render:function(){
     var class_soccerField='soccerField ' + this.props.fieldStyle.field;
     if (this.state.min)class_soccerField+= " minimize"
+    if (this.state.hover) class_soccerField+=" hover";
     var class_top='top ' + (this.props.fieldStyle.top?this.props.fieldStyle.top:'');
     var class_stands='stands ' + (this.props.fieldStyle.stands?this.props.fieldStyle.stands:'');
     var class_grass='grass ' + (this.props.fieldStyle.grass?this.props.fieldStyle.grass:'');

@@ -1,18 +1,24 @@
 .soccerField {
+  @width:1500px;
+  @height:1200px;
+
   position:absolute;
   top:60%;
   left:50%;
-  width:1500px;
-  height:1200px;
-  margin-top:-600px;
-  margin-left:-750px;
+  width:@width;
+  height:@height;
+  margin-left:-@width/2;
+  margin-top:-@height/2;
   z-index:10;
 
+  transition: 1s;
+
   &.minimize{
-    width:600px;
-    height:480px;
-    margin-left:-300px;
-    margin-top:-240px;
+    transform: scale(0.4);
+  }
+
+  &.hover{
+    transform: scale(0.42);
   }
 
   ._layer{

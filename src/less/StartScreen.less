@@ -6,6 +6,8 @@
   height:100%;
   background-color: rgba(255,255,255, 0.4);
   z-index:20;
+  transition: 1s;
+  transform-origin: 50% 60%;
 
   .instruction{
     position: absolute;
@@ -17,6 +19,7 @@
     font-size: 16px;
     margin-left:320px;
     margin-top:-36px;
+    transition: 1s;
 
     span {
       display: block;
@@ -24,21 +27,52 @@
     }
   }
 
+  .sensor{
+    position: absolute;
+    top:60%;
+    left:50%;
+    width:600px;
+    height:480px;
+    margin-left:-300px;
+    margin-top:-240px;
+    background-color: transparent;
+    z-index:40;
+  }
+
+  &:after{
+    position:absolute;
+    top:60%;
+    left:50%;
+    text-align: center;
+    content:'< click to start >';
+    display: block;
+    margin-top:-20px;
+    margin-left: -150px;
+    width:300px;
+    height:40px;
+    font-size: 40px;
+    color:#333;
+    .blink;
+    transition: 1s;
+  }
+
+  &.hover{
+  background-color: rgba(255,255,255, 0.2);
+    .instruction{
+      opacity: 0.6;
+      margin-left:360px;
+    }
+    .sensor{
+      width:800px;
+      height:640px;
+      margin-left:-400px;
+      margin-top:-320px;
+    }
       &:after{
-        position:absolute;
-        top:60%;
-        left:50%;
-        text-align: center;
-        content:'< click to start >';
-        display: block;
-        margin-top:-20px;
-        margin-left: -150px;
-        width:300px;
-        height:40px;
-        font-size: 40px;
-        color:#333;
-        .blink;
+        animation:none;
+        color:#22350d;
       }
+  }
 }
 
 .blink {
