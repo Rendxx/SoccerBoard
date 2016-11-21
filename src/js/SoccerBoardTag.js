@@ -10,8 +10,14 @@ var SoccerBoardTag = React.createClass({
       hover: isHover
     });
   },
+  hide:function(){
+    this.setState({
+      hide: true
+    });
+  },
   getInitialState: function() {
     return {
+      hide: false,
       hover: false
     };
   },
@@ -42,7 +48,8 @@ var SoccerBoardTag = React.createClass({
   },
   render:function(){
     var className = "soccerBoardTag";
-    if (this.state.hover) className+=" hover";
+    if (this.state.hide) className+=" hidden";
+    else if (this.state.hover) className+=" hover";
     return(
       <div className={className} ref="container">
         <span>SOCCER BOARD</span>

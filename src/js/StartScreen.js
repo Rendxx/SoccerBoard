@@ -27,14 +27,15 @@ var StartScreen = React.createClass({
     this.setState({
       show: false
     });
+    this.refs.soccerBoardTag.hide();
   },
   render:function(){
     var className = "startScreen";
     if (!this.state.show) className+=" hidden";
-    if (this.state.hover) className+=" hover";
+    else if (this.state.hover) className+=" hover";
     return(
       <div className={className} onClick={this.start}>
-        <div className="sensor" onMouseEnter={this.props.onHover[0]} onMouseLeave={this.props.onHover[1]}></div>
+        <div className="sensor" onMouseEnter={this.props.onHover[0]} onMouseLeave={this.props.onHover[1]} onClick={this.props.onStart}></div>
         <SoccerBoardTag ref="soccerBoardTag" />
         <div className="instruction" dangerouslySetInnerHTML={this.buildInstruction()} />
       </div>

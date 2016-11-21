@@ -16,10 +16,14 @@ var SoccerBoardContainer = React.createClass({
     this.refs.startScreen.hover(false);
     this.refs.soccerField.hover(false);
   },
+  start:function(){
+    this.refs.startScreen.hide();
+    this.refs.soccerField.expand();
+  },
   render:function(){
     return(
       <div className="soccerBoardContainer">
-        <StartScreen ref="startScreen" onHover={[this.onMouseEnter,this.onMouseLeave]}/>
+        <StartScreen ref="startScreen" onHover={[this.onMouseEnter,this.onMouseLeave]} onStart={this.start}/>
         <SoccerField ref="soccerField" fieldStyle={fieldStyle}/>
       </div>
     );

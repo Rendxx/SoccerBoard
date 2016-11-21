@@ -1,25 +1,12 @@
 .soccerField {
-  @width:1500px;
-  @height:1200px;
-
   position:absolute;
-  top:60%;
+  top:45%;
   left:50%;
-  width:@width;
-  height:@height;
-  margin-left:-@width/2;
-  margin-top:-@height/2;
   z-index:10;
+  transform: translate(-50%, -50%);
 
-  transition: 1s;
-
-  &.minimize{
-    transform: scale(0.4);
-  }
-
-  &.hover{
-    transform: scale(0.42);
-  }
+  transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backface-visibility: hidden;
 
   ._layer{
       position:absolute;
@@ -32,11 +19,15 @@
 
   .top{
     ._layer;
+    transition: 0.5s 0.0s;
+    opacity: 0;
     z-index:50;
   }
 
   .stands{
     ._layer;
+    transition: 0.5s 0.2s;
+    opacity: 0.5;
     z-index:40;
   }
 
@@ -48,6 +39,23 @@
   .grass{
     ._layer;
     z-index:20;
+  }
+
+  &.minimize{
+    transition: 0.5s;
+    top:60%;
+    margin-top:0;
+    transform: translate(-50%, -50%) scale(0.6);
+    .top{
+      opacity: 1;
+    }
+    .stands{
+      opacity: 1;
+    }
+  }
+
+  &.hover{
+    transform:translate(-50%, -50%) scale(0.7);
   }
 }
 
