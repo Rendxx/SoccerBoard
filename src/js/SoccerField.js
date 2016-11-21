@@ -16,7 +16,7 @@ var SoccerField = React.createClass({
     window.removeEventListener("resize", this.updateDimensions);
   },
   updateDimensions:function(){
-    var w = this.refs.soccerField.parentNode.offsetWidth-400;
+    var w = Math.max(600,this.refs.soccerField.parentNode.offsetWidth-400);
     var h = this.refs.soccerField.parentNode.offsetHeight;
     if (w>h/4*5) w = h/4*5;
     else if (h>w/5*4) h = w/5*4;

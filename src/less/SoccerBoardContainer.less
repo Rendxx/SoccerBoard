@@ -6,6 +6,7 @@
   left:0;
   font-family: 'Agency FB', Calibri;
   background-color: #eee;
+  transition: 0.5s;
 
   &:before{
     content:'';
@@ -17,5 +18,9 @@
     left:50%;
     z-index:1;
     background-color: #ddd;
+  }
+
+  &.started{
+    background-color: #fff;
   }
 }

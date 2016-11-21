@@ -6,6 +6,11 @@ var style = require('../less/SoccerBoardContainer.less');
 var fieldStyle={field:'default'};
 
 var SoccerBoardContainer = React.createClass({
+  getInitialState: function() {
+    return {
+      started: false
+    };
+  },
   componentDidMount: function (){
   },
   onMouseEnter:function(){
@@ -19,10 +24,15 @@ var SoccerBoardContainer = React.createClass({
   start:function(){
     this.refs.startScreen.hide();
     this.refs.soccerField.expand();
+    this.setState({
+      started: true
+    });
   },
   render:function(){
+    var className = "soccerBoardContainer";
+    if (this.state.started) className+=" started";
     return(
-      <div className="soccerBoardContainer">
+      <div className={className}>
         <StartScreen ref="startScreen" onHover={[this.onMouseEnter,this.onMouseLeave]} onStart={this.start}/>
         <SoccerField ref="soccerField" fieldStyle={fieldStyle}/>
       </div>
