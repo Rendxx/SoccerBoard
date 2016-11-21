@@ -1,3 +1,4 @@
+@size: 20px;
 .soccerBoardTag{
   position:absolute;
   top:25%;
@@ -40,8 +41,6 @@
   }
 
   .dot{
-    @size: 20px;
-    @size-border: 30px;
     display: block;
     position: absolute;
     bottom: -104px-@size;
@@ -72,13 +71,28 @@
       position:absolute;
       top: 50%;
       left: 50%;
-      height:@size-border;
-      width:@size-border;
-      margin-top:-@size-border/2-2px;
-      margin-left:-@size-border/2-2px;
+      height:@size;
+      width:@size;
+      margin-top:-@size/2-2px;
+      margin-left:-@size/2-2px;
       border-radius: 50%;
       border:2px solid #444;
       z-index:40;
+      .diffusion;
     }
+  }
+}
+
+.diffusion {
+  animation: animation_diffusion 1s linear infinite;
+}
+
+@keyframes animation_diffusion {
+  to {
+    opacity: 0;
+    width:@size+16px;
+    height:@size+16px;
+    margin-top:-@size/2-10px;
+    margin-left:-@size/2-10px;
   }
 }
