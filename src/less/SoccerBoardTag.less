@@ -1,6 +1,6 @@
 .soccerBoardTag{
   position:absolute;
-  top:30%;
+  top:25%;
   left:50%;
   width:280px;
   height:60px;
@@ -8,7 +8,7 @@
   z-index:20;
   margin-top:-30px;
   margin-left:-140px;
-  overflow: hidden;
+  overflow: visible;
   border-bottom:4px solid #ddd;
 
   &.minimize{
@@ -37,5 +37,48 @@
     z-index:1;
     width:100%;
     height:100%;
+  }
+
+  .dot{
+    @size: 20px;
+    @size-border: 30px;
+    display: block;
+    position: absolute;
+    bottom: -104px-@size;
+    left: 50%;
+    height: @size;
+    width: @size;
+    background-color: #444;
+    margin-left:-@size/2;
+    border-radius: 50%;
+    overflow: visible;
+
+    &:before{
+      content:'';
+      display: block;
+      position:absolute;
+      top: -100px;
+      left:50%;
+      height:100px;
+      width:2px;
+      margin-left:-1px;
+      background-color: #444;
+      z-index:30;
+    }
+
+    &:after{
+      content:'';
+      display: block;
+      position:absolute;
+      top: 50%;
+      left: 50%;
+      height:@size-border;
+      width:@size-border;
+      margin-top:-@size-border/2-2px;
+      margin-left:-@size-border/2-2px;
+      border-radius: 50%;
+      border:2px solid #444;
+      z-index:40;
+    }
   }
 }

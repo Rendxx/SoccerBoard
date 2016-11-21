@@ -15,7 +15,7 @@
     text-align: left;
     color:#333;
     font-size: 16px;
-    margin-left:260px;
+    margin-left:320px;
     margin-top:-36px;
 
     span {
@@ -37,5 +37,14 @@
         height:40px;
         font-size: 40px;
         color:#333;
+        .blink;
       }
+}
+
+.blink {
+  animation: animation-blink 3s linear infinite;
+}
+
+@keyframes animation-blink {
+  50% { opacity: 0.5; }
 }

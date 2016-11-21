@@ -47,6 +47,7 @@ var SoccerBoardTag = React.createClass({
       <div className={className} ref="container">
         <span>SOCCER BOARD</span>
         <canvas ref="canvas"></canvas>
+        <div className="dot"></div>
       </div>
     );
   }
