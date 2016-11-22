@@ -3,13 +3,13 @@ var PlayerItem = require('./PlayerItem.js');
 var style = require('../less/Team.less');
 
 var Team = React.createClass({
-  loadPlayer:function(players){
+  loadPlayer:function(teamDat){
     this.setState({
-      name:players.name||"",
-      info:players.info||[],
-      starting:players.starting||[],
-      bench:players.bench||[],
-      rest:players.rest||[]
+      name:teamDat.name||"",
+      info:teamDat.info||[],
+      starting:teamDat.starting||[],
+      bench:teamDat.bench||[],
+      rest:teamDat.rest||[]
     });
   },
   getInitialState: function() {

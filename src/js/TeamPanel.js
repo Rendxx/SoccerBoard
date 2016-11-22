@@ -9,7 +9,8 @@ var TeamPanel = React.createClass({
     });
   },
   resize:function(w, h){
-    
+    this.refs.teamPanel.style.width = w+"px";
+    this.refs.teamPanel.style.height = h+"px";
   },
   getInitialState: function() {
     return {
@@ -18,8 +19,8 @@ var TeamPanel = React.createClass({
   },
   loadTeam: function (dat){
     if (!dat) return;
-    if (!dat.left)this.refs.teamLeft.loadPlayer(dat.left);
-    if (!dat.right)this.refs.teamRight.loadPlayer(dat.right);
+    if (dat.left)this.refs.teamLeft.loadPlayer(dat.left);
+    if (dat.right)this.refs.teamRight.loadPlayer(dat.right);
   },
   render:function(){
     var className='teamPanel';

@@ -15,6 +15,10 @@ var SoccerBoardContainer = React.createClass({
   componentDidMount: function (){
     window.addEventListener("resize", this.resize);
     this.resize();
+    this.refs.teamPanel.loadTeam({
+      left:this.props.team.left,
+      right:this.props.team.right
+    });
   },
   componentWillUnmount: function() {
     window.removeEventListener("resize", this.resize);
