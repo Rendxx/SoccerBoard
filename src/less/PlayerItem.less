@@ -1,0 +1,53 @@
+.playerItem{
+  position:absolute;
+  width:200px;
+  height:30px;
+  line-height:30px;
+  overflow: hidden;
+
+  .number{
+    position:absolute;
+    top:0;
+    width:40px;
+  }
+
+  .name{
+    position:absolute;
+    top:0;
+    overflow: hidden;
+  }
+
+  &.textLeft{
+    text-align: left;
+    .number{
+      left:0;
+    }
+
+    .name{
+      left:60px;
+    }
+  }
+
+  &.textRight{
+    text-align: right;
+    .number{
+      right:0;
+    }
+
+    .name{
+      right:60px;
+    }
+  }
+
+  &.starting{
+    color:#333;
+  }
+
+  &.bench{
+    color:#666;
+  }
+
+  &.rest{
+    color:#666;
+  }
+}
