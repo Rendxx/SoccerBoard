@@ -34,20 +34,20 @@ var Team = React.createClass({
 
     return(
       <div className={className}>
-        <div className="team-name"><span>{this.state.name}<span></div>
+        <div className="team-name"><span>{this.state.name}</span> </div>
         <div className="player-starting">{
           this.state.starting.map((number) => (
-              <PlayerItem number={number} name={this.state.info[number].name} status="starting" textAlign={textAlign}/>
+              <PlayerItem number={number} name={this.state.info[number].name} status="starting" textAlign={textAlign} />
           ))
         }</div>
         <div className="player-bench">{
           this.state.bench.map((number) => (
-              <PlayerItem number={number} name={this.state.info[number].name} status="bench" textAlign={textAlign}/>
+              <PlayerItem number={number} name={this.state.info[number].name} status="bench" textAlign={textAlign} />
           ))
         }</div>
         <div className="player-rest">{
           this.state.rest.map((number) => (
-              <PlayerItem number={number} name={this.state.info[number].name} status="rest" textAlign={textAlign}/>
+              <PlayerItem number={number} name={this.state.info[number].name} status="rest" textAlign={textAlign} />
           ))
         }</div>
       </div>

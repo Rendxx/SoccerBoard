@@ -32,11 +32,11 @@ var TeamPanel = React.createClass({
 
     return(
       <div className={className} ref="teamPanel">
-        <Team ref="teamLeft" posAlign="left">
-        <Team ref="teamRight" posAlign="right">
+        <Team ref="teamLeft" posAlign="left" />
+        <Team ref="teamRight" posAlign="right" />
       </div>
     );
   }
 });
 
-module.exports = SoccerField;
+module.exports = TeamPanel;

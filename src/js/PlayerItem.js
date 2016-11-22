@@ -19,4 +19,4 @@ var PlayerItem = React.createClass({
   }
 });
 
-module.exports = Team;
+module.exports = PlayerItem;
