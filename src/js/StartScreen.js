@@ -3,6 +3,9 @@ var SoccerBoardTag = require('./SoccerBoardTag.js');
 var style = require('../less/StartScreen.less');
 
 var StartScreen = React.createClass({
+  resize:function(w, h){
+    this.refs.instruction.style.marginLeft = w/2+40+"px";
+  },
   getInitialState: function() {
     return {
       show:true,
@@ -37,7 +40,7 @@ var StartScreen = React.createClass({
       <div className={className} onClick={this.start}>
         <div className="sensor" onMouseEnter={this.props.onHover[0]} onMouseLeave={this.props.onHover[1]} onClick={this.props.onStart}></div>
         <SoccerBoardTag ref="soccerBoardTag" />
-        <div className="instruction" dangerouslySetInnerHTML={this.buildInstruction()} />
+        <div className="instruction" ref="instruction" dangerouslySetInnerHTML={this.buildInstruction()} />
       </div>
     );
   }

@@ -8,18 +8,7 @@ var SoccerField = React.createClass({
       hover: false
     };
   },
-  componentDidMount: function (){
-    window.addEventListener("resize", this.updateDimensions);
-    this.updateDimensions();
-  },
-  componentWillUnmount: function() {
-    window.removeEventListener("resize", this.updateDimensions);
-  },
-  updateDimensions:function(){
-    var w = Math.max(600,this.refs.soccerField.parentNode.offsetWidth-400);
-    var h = this.refs.soccerField.parentNode.offsetHeight;
-    if (w>h/4*5) w = h/4*5;
-    else if (h>w/5*4) h = w/5*4;
+  resize:function(w, h){
     this.refs.soccerField.style.width = w+"px";
     this.refs.soccerField.style.height = h+"px";
   },

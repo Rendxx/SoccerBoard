@@ -8,13 +8,8 @@ var TeamPanel = React.createClass({
       hidden:false
     });
   },
-  updateDimensions:function(){
-    var w = Math.max(600,this.refs.soccerField.parentNode.offsetWidth-400);
-    var h = this.refs.soccerField.parentNode.offsetHeight;
-    if (w>h/4*5) w = h/4*5;
-    else if (h>w/5*4) h = w/5*4;
-    this.refs.soccerField.style.width = w+"px";
-    this.refs.soccerField.style.height = h+"px";
+  resize:function(w, h){
+    
   },
   getInitialState: function() {
     return {
