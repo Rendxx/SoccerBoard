@@ -1,20 +1,21 @@
 .playerItem{
-  position:absolute;
+  position:relative;
   width:200px;
-  height:30px;
-  line-height:30px;
+  height:22px;
+  line-height:22px;
   overflow: hidden;
 
   .number{
     position:absolute;
     top:0;
-    width:40px;
+    width:30px;
   }
 
   .name{
     position:absolute;
     top:0;
     overflow: hidden;
+    width:170px;
   }
 
   &.textLeft{
@@ -24,7 +25,7 @@
     }
 
     .name{
-      left:60px;
+      left:30px;
     }
   }
 
@@ -35,7 +36,7 @@
     }
 
     .name{
-      right:60px;
+      right:30px;
     }
   }
 
@@ -44,10 +45,10 @@
   }
 
   &.bench{
-    color:#666;
+    color:#999;
   }
 
   &.rest{
-    color:#666;
+    color:#999;
   }
 }

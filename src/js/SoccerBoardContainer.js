@@ -6,6 +6,9 @@ var style = require('../less/SoccerBoardContainer.less');
 
 var fieldStyle={field:'default'};
 
+var radioStand = [1100/1500, 850/1200];
+var radioField = [1100/1500, 850/1200];
+
 var SoccerBoardContainer = React.createClass({
   getInitialState: function() {
     return {
@@ -30,7 +33,7 @@ var SoccerBoardContainer = React.createClass({
     else if (h>w/5*4) h = w/5*4;
     this.refs.soccerField.resize(w,h);
     this.refs.startScreen.resize(w*0.6,h);
-    this.refs.teamPanel.resize(w+400,h);
+    this.refs.teamPanel.resize(w*radioStand[0]+440,h*radioStand[1]);
   },
   onMouseEnter:function(){
     this.refs.startScreen.hover(true);

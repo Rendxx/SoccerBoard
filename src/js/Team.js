@@ -28,13 +28,14 @@ var Team = React.createClass({
     if (this.props.posAlign==="left") className+=" left";
     else  className+=" right";
     var textAlign;
-    if (this.props.textAlign==="left") textClass="left";
-    else if (this.props.textAlign==="right") textClass="right";
+    if (this.props.textAlign==="left") textAlign="left";
+    else if (this.props.textAlign==="right") textAlign="right";
     else textAlign=(this.props.posAlign==="left")?"right":"left";
+    var nameClass="team-name "+(textAlign==="left"?"textLeft":"textRight");
 
     return(
       <div className={className}>
-        <div className="team-name"><span>{this.state.name}</span> </div>
+        <div className={nameClass}><span>{this.state.name}</span> </div>
         <div className="player-starting">{
           this.state.starting.map((number) => (
               <PlayerItem number={number} name={this.state.info[number].name} status="starting" textAlign={textAlign} />

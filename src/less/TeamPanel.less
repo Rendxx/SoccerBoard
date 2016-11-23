@@ -5,4 +5,9 @@
   z-index:30;
   transform: translate(-50%, -50%);
   transition: 0.5s 1.0s;
+  backface-visibility: none;
+
+  &.hidden{
+    opacity: 0;
+  }
 }
