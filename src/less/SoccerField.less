@@ -5,8 +5,11 @@
   z-index:10;
   transform: translate(-50%, -50%);
 
-  transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   backface-visibility: hidden;
+
+  &.animation{
+    transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
 
   ._layer{
       position:absolute;
@@ -19,14 +22,14 @@
 
   .top{
     ._layer;
-    transition: 0.5s 0.0s;
+    transition: opacity 0.5s 0.0s;
     opacity: 0;
     z-index:50;
   }
 
   .stands{
     ._layer;
-    transition: 0.5s 0.2s;
+    transition: opacity 0.5s 0.2s;
     opacity: 0.5;
     z-index:40;
   }
@@ -42,7 +45,6 @@
   }
 
   &.minimize{
-    transition: 0.5s;
     top:60%;
     margin-top:0;
     transform: translate(-50%, -50%) scale(0.6);

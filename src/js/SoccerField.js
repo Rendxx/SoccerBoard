@@ -5,8 +5,15 @@ var SoccerField = React.createClass({
   getInitialState: function() {
     return {
       min: true,
-      hover: false
+      hover: false,
+      animation:true
     };
+  },
+  transitionEnd: function(){
+    if (this.state.min) return;
+    this.setState({
+      animation:false
+    });
   },
   resize:function(w, h){
     this.refs.soccerField.style.width = w+"px";
@@ -24,6 +31,7 @@ var SoccerField = React.createClass({
   },
   render:function(){
     var class_soccerField='soccerField ' + this.props.fieldStyle.field;
+    if (this.state.animation) class_soccerField+= " animation"
     if (this.state.min){
       class_soccerField+= " minimize"
       if (this.state.hover) class_soccerField+=" hover";
@@ -33,7 +41,7 @@ var SoccerField = React.createClass({
     var class_grass='grass ' + (this.props.fieldStyle.grass?this.props.fieldStyle.grass:'');
 
     return(
-      <div className={class_soccerField} ref="soccerField">
+      <div className={class_soccerField} ref="soccerField" onTransitionEnd={this.transitionEnd}>
         <div className={class_top}></div>
         <div className={class_stands}></div>
         <div className="board"></div>

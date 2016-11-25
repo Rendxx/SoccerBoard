@@ -8,13 +8,20 @@ var TeamPanel = React.createClass({
       hidden:false
     });
   },
+  transitionEnd: function(){
+    if (this.state.hidden) return;
+    this.setState({
+      animation:false
+    });
+  },
   resize:function(w, h){
     this.refs.teamPanel.style.width = w+"px";
     this.refs.teamPanel.style.height = h+"px";
   },
   getInitialState: function() {
     return {
-      hidden: true
+      hidden: true,
+      animation:true
     };
   },
   loadTeam: function (dat){
@@ -25,9 +32,10 @@ var TeamPanel = React.createClass({
   render:function(){
     var className='teamPanel';
     if (this.state.hidden)className+= " hidden";
+    if (this.state.animation)className+= " animation";
 
     return(
-      <div className={className} ref="teamPanel">
+      <div className={className} ref="teamPanel" onTransitionEnd={this.transitionEnd}>
         <Team ref="teamLeft" posAlign="left" />
         <Team ref="teamRight" posAlign="right" />
       </div>
