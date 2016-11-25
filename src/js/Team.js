@@ -3,6 +3,9 @@ var PlayerItem = require('./PlayerItem.js');
 var style = require('../less/Team.less');
 
 var Team = React.createClass({
+  setMarginTop :function (t){
+    this.refs.team.style.marginTop=t+"px";
+  },
   loadPlayer:function(teamDat){
     this.setState({
       name:teamDat.name||"",
@@ -34,7 +37,7 @@ var Team = React.createClass({
     var nameClass="team-name "+(textAlign==="left"?"textLeft":"textRight");
 
     return(
-      <div className={className}>
+      <div className={className} ref="team">
         <div className={nameClass}><span>{this.state.name}</span> </div>
         <div className="player-starting">{
           this.state.starting.map((number) => (

@@ -14,9 +14,12 @@ var TeamPanel = React.createClass({
       animation:false
     });
   },
-  resize:function(w, h){
+  resize:function(w, h, w_border, h_border){
     this.refs.teamPanel.style.width = w+"px";
     this.refs.teamPanel.style.height = h+"px";
+    var marginTop = (h- h_border)/2-60;
+    this.refs.teamLeft.setMarginTop(marginTop);
+    this.refs.teamRight.setMarginTop(marginTop);
   },
   getInitialState: function() {
     return {
