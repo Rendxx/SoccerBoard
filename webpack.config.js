@@ -44,6 +44,11 @@ module.exports = {
               test: /\.(png|jpg)$/,
               exclude: /node_modules/,
               loader: 'url-loader'
+            },
+            {
+              test   : /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+              exclude: /node_modules/,
+              loader : 'file-loader?name=../style/[name].[ext]'
             }
         ],
         noParse: [pathToReact]

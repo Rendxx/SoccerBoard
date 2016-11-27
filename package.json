@@ -22,6 +22,7 @@
     "react-dom": "*",
     "style-loader": "*",
     "url-loader": "*",
+    "file-loader": "*",
     "webpack": "^1.13.2"
   },
   "scripts": {
