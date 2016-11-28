@@ -7,6 +7,7 @@ var style = require('../less/Main.less');
 
 var team1={
   name:"Team 1",
+  color: "#cc3333",
   info:[
     null,
     {name: "Player Alpha"}, // 1
@@ -30,14 +31,15 @@ var team1={
     {name: "Player Santa"},
     {name: "Player Tank"} // 20
   ],
-  starting:[1,2,3,4,5,6,7,8,9,10,11],
+  starting:[1,3,2,4,5,6,7,8,9,10,11],
   bench:[12,13,14,15,16,17],
-  rest:[18, 19, 20]，
+  rest:[18, 19, 20],
   position:[[50,0], [20,15], [40,10], [60,10], [80,15], [20,30], [45,26], [55,24], [80,35],[47,40],[52,42] ]
 };
 
 var team2={
   name:"Team 2",
+  color: "#3333cc",
   info:[
     null,
     {name: "Player Alpha"}, // 1

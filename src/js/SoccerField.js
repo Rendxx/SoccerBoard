@@ -1,4 +1,6 @@
 var React = require('react');
+var PlayerBoard = require('./PlayerBoard.js');
+
 var style = require('../less/SoccerField.less');
 
 var SoccerField = React.createClass({
@@ -9,15 +11,20 @@ var SoccerField = React.createClass({
       animation:true
     };
   },
+  loadTeam: function (dat){
+    if (!dat) return;
+    this.refs.playerBoard.loadTeam(dat);
+  },
   transitionEnd: function(){
     if (this.state.min) return;
     this.setState({
       animation:false
     });
   },
-  resize:function(w, h){
+  resize:function(w, h, w_field, h_field){
     this.refs.soccerField.style.width = w+"px";
     this.refs.soccerField.style.height = h+"px";
+    this.refs.playerBoard.resize(w_field, h_field);
   },
   hover:function(isHover){
     this.setState({
@@ -28,6 +35,7 @@ var SoccerField = React.createClass({
     this.setState({
       min: false
     });
+    this.refs.playerBoard.show();
   },
   render:function(){
     var class_soccerField='soccerField ' + this.props.fieldStyle.field;
@@ -44,7 +52,7 @@ var SoccerField = React.createClass({
       <div className={class_soccerField} ref="soccerField" onTransitionEnd={this.transitionEnd}>
         <div className={class_top}></div>
         <div className={class_stands}></div>
-        <div className="board"></div>
+        <PlayerBoard ref="playerBoard" />
         <div className={class_grass}></div>
       </div>
     );

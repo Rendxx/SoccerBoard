@@ -5,8 +5,10 @@ var PlayerMarker = React.createClass({
   getInitialState: function() {
     return {
       dragging: false,
-      x:0,
-      y:0,
+      number: this.props.number,
+      color: this.props.color,
+      x:this.props.x || 0,
+      y:this.props.y || 0,
       boardWidth: 100,
       boardHeight: 100,
       side: this.props.side || "left",
@@ -33,12 +35,14 @@ var PlayerMarker = React.createClass({
       x_ratio=1-x_ratio;
       y_ratio=1-y_ratio;
     }
-    var x = ~~(x_ratio*this.state.boardWidth);
-    var y = ~~(y_ratio*this.state.boardHeight);
+    var x = ~~(x_ratio*this.state.boardHeight);
+    var y = ~~(y_ratio*this.state.boardWidth);
 
-    var css = "top:" + y +"px;"
-            + "left:"+ x +"px;";
-    return css;
+    return {
+      top: x+"px",
+      left: y+"px",
+      zIndex: x
+    };
   },
   render:function(){
     var className = "playerMarker";
@@ -46,10 +50,10 @@ var PlayerMarker = React.createClass({
 
     return(
       <div className={className} style={this.getStyle()}>
-        <div className="number">{this.props.number}</div>
+        <div className="number">{this.state.number}</div>
         <div className="cloth-border"></div>
         <div className="cloth-dark"></div>
-        <div className="cloth-color"></div>
+        <div className="cloth-color" style={{color: this.state.color}}></div>
         <div className="shadow"></div>
       </div>
     );

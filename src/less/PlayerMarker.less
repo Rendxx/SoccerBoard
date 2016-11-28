@@ -1,59 +1,66 @@
 .playerMarker {
-  @size: 64px;
+  @size: 50px;
   position:absolute;
   width:@size;
   height:@size;
   margin-top: -@size/2;
   margin-left: -@size/2;
+  overflow: visible;
 
   ._part{
     position:absolute;
-    top:0;
+    top: -@size/2;
     left:0;
     width:@size;
     height:@size;
-    margin-top: -@size;
-    margin-left: -@size/2;
     line-height: @size;
-    font-size: 60px;
+    font-size: 40px;
     text-align: center;
 
     &:after{
-      color: #000;
       display: block;
       width:100%;
       height:100%;
-      font: "soccerIcon";
+      font-family:  "soccerIcon";
     }
+  }
+
+  ._part_after{
   }
 
   .number{
     ._part;
     color:#fff;
-    font-size: 30px;
+    font-size: 22px;
     z-index: 40;
   }
 
   .cloth-border{
+    ._part;
     z-index: 30;
-    opacity: 0.4;
+    opacity: 0.6;
     &:after{
-      content:"\e902"
+      color: #000;
+      content:"\e901";
     }
   }
 
   .cloth-dark{
+    ._part;
     z-index: 20;
     opacity: 0.2;
     &:after{
-      content:"\e901"
+      color: #000;
+      content:"\e902";
     }
   }
 
   .cloth-color{
+    ._part;
     z-index: 10;
     &:after{
-      content:"\e900"
+      content:"\e900";
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
     }
   }
 
@@ -64,8 +71,7 @@
     left:0;
     width:@size;
     height:@size;
-    margin-top: -@size/2;
-    margin-left: -@size/2;
     background-image: url('../image/player-shadow.png');
+    background-size: contain;
   }
 }

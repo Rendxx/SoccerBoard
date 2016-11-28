@@ -8,7 +8,7 @@ var fieldStyle={field:'default'};
 
 var radioStand = [1100/1500, 850/1200];
 var radioBorder = [884/1500, 642/1200];
-var radioField = [722/1500, 520/1200];
+var radioField = [694/1500, 520/1200];
 
 var SoccerBoardContainer = React.createClass({
   getInitialState: function() {
@@ -19,7 +19,7 @@ var SoccerBoardContainer = React.createClass({
   componentDidMount: function (){
     window.addEventListener("resize", this.resize);
     this.resize();
-    this.refs.teamPanel.loadTeam({
+    this.loadTeam({
       left:this.props.team.left,
       right:this.props.team.right
     });
@@ -27,12 +27,16 @@ var SoccerBoardContainer = React.createClass({
   componentWillUnmount: function() {
     window.removeEventListener("resize", this.resize);
   },
+  loadTeam: function (dat){
+    this.refs.teamPanel.loadTeam(dat);
+    this.refs.soccerField.loadTeam(dat);
+  },
   resize:function(){
     var w = Math.max(600,this.refs.soccerBoardContainer.offsetWidth-460);
     var h = this.refs.soccerBoardContainer.offsetHeight;
     if (w>h/4*5) w = h/4*5;
     else if (h>w/5*4) h = w/5*4;
-    this.refs.soccerField.resize(w,h);
+    this.refs.soccerField.resize(w,h, w*radioField[0],h*radioField[1]);
     this.refs.startScreen.resize(w*0.6,h);
     this.refs.teamPanel.resize(w*radioStand[0]+460,h*radioStand[1], w*radioBorder[0],h*radioBorder[1]);
     //, w*radioField[0],h*radioField[1]
