@@ -6,15 +6,18 @@
   margin-top: -@size/2;
   margin-left: -@size/2;
   overflow: visible;
+  cursor: default !important;
+  -moz-user-select:none;
+  -webkit-user-select:none;
 
   ._part{
     position:absolute;
-    top: -@size/2;
+    top: 0;
     left:0;
     width:@size;
     height:@size;
     line-height: @size;
-    font-size: 40px;
+    font-size: 32px;
     text-align: center;
 
     &:after{
@@ -31,14 +34,14 @@
   .number{
     ._part;
     color:#fff;
-    font-size: 22px;
+    font-size: 16px;
     z-index: 40;
   }
 
   .cloth-border{
     ._part;
     z-index: 30;
-    opacity: 0.6;
+    opacity: 0.2;
     &:after{
       color: #000;
       content:"\e901";
@@ -48,7 +51,7 @@
   .cloth-dark{
     ._part;
     z-index: 20;
-    opacity: 0.2;
+    opacity: 0.1;
     &:after{
       color: #000;
       content:"\e902";
@@ -60,17 +63,18 @@
     z-index: 10;
     &:after{
       content:"\e900";
-      text-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
     }
   }
 
   .shadow{
     z-index: 5;
     position:absolute;
-    top:0;
+    top:@size/4;
     left:0;
     width:@size;
     height:@size;
+    transform: scale(0.6);
     background-image: url('../image/player-shadow.png');
     background-size: contain;
   }

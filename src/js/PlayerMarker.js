@@ -9,8 +9,8 @@ var PlayerMarker = React.createClass({
       color: this.props.color,
       x:this.props.x || 0,
       y:this.props.y || 0,
-      boardWidth: 100,
-      boardHeight: 100,
+      boardWidth: this.props.boardWidth ||100,
+      boardHeight: this.props.boardHeight ||100,
       side: this.props.side || "left",
     };
   },
@@ -49,7 +49,7 @@ var PlayerMarker = React.createClass({
     if (this.state.dragging) className+=" dragging";
 
     return(
-      <div className={className} style={this.getStyle()}>
+      <div className={className} style={this.getStyle()} onselectstart="return false;">
         <div className="number">{this.state.number}</div>
         <div className="cloth-border"></div>
         <div className="cloth-dark"></div>
