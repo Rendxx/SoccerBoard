@@ -2,6 +2,11 @@ var React = require('react');
 var style = require('../less/PlayerItem.less');
 
 var PlayerItem = React.createClass({
+  /* Public Method *********************************************************************/
+
+  /* Private Method *********************************************************************/
+
+  /* React Method *********************************************************************/
   componentDidMount: function (){
   },
   render:function(){

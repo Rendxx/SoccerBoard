@@ -3,6 +3,7 @@ var PlayerItem = require('./PlayerItem.js');
 var style = require('../less/Team.less');
 
 var Team = React.createClass({
+  /* Public Method *********************************************************************/
   setMarginTop :function (t){
     this.refs.team.style.marginTop=t+"px";
   },
@@ -15,6 +16,10 @@ var Team = React.createClass({
       rest:teamDat.rest||[]
     });
   },
+
+  /* Private Method *********************************************************************/
+
+  /* React Method *********************************************************************/
   getInitialState: function() {
     return {
       name:"",

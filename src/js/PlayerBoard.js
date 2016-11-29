@@ -4,6 +4,7 @@ var PlayerMarker = require('./PlayerMarker.js');
 var style = require('../less/PlayerBoard.less');
 
 var PlayerBoard = React.createClass({
+  /* Public Method *********************************************************************/
   show:function(){
     this.setState({
       hidden:false
@@ -20,6 +21,25 @@ var PlayerBoard = React.createClass({
       boardHeight:h
     });
   },
+  loadTeam: function (dat){
+    if (!dat) return;
+    var s = {};
+    if (dat.left) s.teamLeft=dat.left;
+    if (dat.right) s.teamRight=dat.right;
+
+    this.setState(s);
+  },
+
+  /* Private Method *********************************************************************/
+  _buildOnSelectedCallback: function(refId){
+    var cb = function (){
+      if (this.state.selectedRefId!==null) this.refs[this.state.selectedRefId].unselect();
+      this.setState({selectedRefId:refId});
+    };
+    return cb.bind(this);
+  },
+  
+  /* React Method *********************************************************************/
   getInitialState: function() {
     return {
       hidden: true,
@@ -29,24 +49,6 @@ var PlayerBoard = React.createClass({
       boardHeight:100,
       selectedRefId:null
     };
-  },
-  loadTeam: function (dat){
-    if (!dat) return;
-    var s = {};
-    if (dat.left) s.teamLeft=dat.left;
-    if (dat.right) s.teamRight=dat.right;
-
-    this.setState(s);
-  },
-  onPlayerSelected: function (refId){
-
-  },
-  buildOnSelectedCallback: function(refId){
-    var cb = function (){
-      if (this.state.selectedRefId!==null) this.refs[this.state.selectedRefId].unselect();
-      this.setState({selectedRefId:refId});
-    };
-    return cb.bind(this);
   },
   render:function(){
     var className='playerBoard';
@@ -64,7 +66,7 @@ var PlayerBoard = React.createClass({
               side="left"
               boardWidth={this.state.boardWidth}
               boardHeight={this.state.boardHeight}
-              onSelected={(this.buildOnSelectedCallback("l"+ arrIdx))}
+              onSelected={(this._buildOnSelectedCallback("l"+ arrIdx))}
             />
         ))
       }
@@ -78,7 +80,7 @@ var PlayerBoard = React.createClass({
               side="right"
               boardWidth={this.state.boardWidth}
               boardHeight={this.state.boardHeight}
-              onSelected={(this.buildOnSelectedCallback("r"+ arrIdx))}
+              onSelected={(this._buildOnSelectedCallback("r"+ arrIdx))}
             />
         ))
       }

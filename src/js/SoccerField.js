@@ -4,22 +4,10 @@ var PlayerBoard = require('./PlayerBoard.js');
 var style = require('../less/SoccerField.less');
 
 var SoccerField = React.createClass({
-  getInitialState: function() {
-    return {
-      min: true,
-      hover: false,
-      animation:true
-    };
-  },
+  /* Public Method *********************************************************************/
   loadTeam: function (dat){
     if (!dat) return;
     this.refs.playerBoard.loadTeam(dat);
-  },
-  transitionEnd: function(){
-    if (this.state.min) return;
-    this.setState({
-      animation:false
-    });
   },
   resize:function(w, h, w_field, h_field){
     this.refs.soccerField.style.width = w+"px";
@@ -37,6 +25,22 @@ var SoccerField = React.createClass({
     });
     this.refs.playerBoard.show();
   },
+
+  /* Private Method *********************************************************************/
+  _transitionEnd: function(){
+    if (this.state.min) return;
+    this.setState({
+      animation:false
+    });
+  },
+  /* React Method *********************************************************************/
+  getInitialState: function() {
+    return {
+      min: true,
+      hover: false,
+      animation:true
+    };
+  },
   render:function(){
     var class_soccerField='soccerField ' + this.props.fieldStyle.field;
     if (this.state.animation) class_soccerField+= " animation"
@@ -49,7 +53,7 @@ var SoccerField = React.createClass({
     var class_grass='grass ' + (this.props.fieldStyle.grass?this.props.fieldStyle.grass:'');
 
     return(
-      <div className={class_soccerField} ref="soccerField" onTransitionEnd={this.transitionEnd}>
+      <div className={class_soccerField} ref="soccerField" onTransitionEnd={this._transitionEnd}>
         <div className={class_top}></div>
         <div className={class_stands}></div>
         <PlayerBoard ref="playerBoard" />

@@ -3,16 +3,16 @@ var Team = require('./Team.js');
 var style = require('../less/TeamPanel.less');
 
 var TeamPanel = React.createClass({
+  /* Public Method *********************************************************************/
   show:function(){
     this.setState({
       hidden:false
     });
   },
-  transitionEnd: function(){
-    if (this.state.hidden) return;
-    this.setState({
-      animation:false
-    });
+  loadTeam: function (dat){
+    if (!dat) return;
+    if (dat.left)this.refs.teamLeft.loadPlayer(dat.left);
+    if (dat.right)this.refs.teamRight.loadPlayer(dat.right);
   },
   resize:function(w, h, w_border, h_border){
     this.refs.teamPanel.style.width = w+"px";
@@ -21,16 +21,21 @@ var TeamPanel = React.createClass({
     this.refs.teamLeft.setMarginTop(marginTop);
     this.refs.teamRight.setMarginTop(marginTop);
   },
+
+  /* Private Method *********************************************************************/
+  _transitionEnd: function(){
+    if (this.state.hidden) return;
+    this.setState({
+      animation:false
+    });
+  },
+
+  /* React Method *********************************************************************/
   getInitialState: function() {
     return {
       hidden: true,
       animation:true
     };
-  },
-  loadTeam: function (dat){
-    if (!dat) return;
-    if (dat.left)this.refs.teamLeft.loadPlayer(dat.left);
-    if (dat.right)this.refs.teamRight.loadPlayer(dat.right);
   },
   render:function(){
     var className='teamPanel';
@@ -38,7 +43,7 @@ var TeamPanel = React.createClass({
     if (this.state.animation)className+= " animation";
 
     return(
-      <div className={className} ref="teamPanel" onTransitionEnd={this.transitionEnd}>
+      <div className={className} ref="teamPanel" onTransitionEnd={this._transitionEnd}>
         <Team ref="teamLeft" posAlign="left" />
         <Team ref="teamRight" posAlign="right" />
       </div>

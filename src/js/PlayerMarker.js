@@ -2,21 +2,7 @@ var React = require('react');
 var style = require('../less/PlayerMarker.less');
 
 var PlayerMarker = React.createClass({
-  getInitialState: function() {
-    return {
-      dragging: false,
-      selected: false,
-      number: this.props.number,
-      color: this.props.color,
-      x:this.props.x || 0,
-      y:this.props.y || 0,
-      boardWidth: this.props.boardWidth ||100,
-      boardHeight: this.props.boardHeight ||100,
-      side: this.props.side || "left",
-    };
-  },
-  componentDidMount: function (){
-  },
+  /* Public Method *********************************************************************/
   setBoardDimension: function (boardWidth, boardHeight){
     this.setState({
       boardWidth: boardWidth,
@@ -40,7 +26,9 @@ var PlayerMarker = React.createClass({
       selected: false
     });
   },
-  getStyle: function (){
+
+  /* Private Method *********************************************************************/
+  _getStyle: function (){
     var x_ratio = this.state.x/100;
     var y_ratio = this.state.y/100;
     if (this.state.side==="right"){
@@ -52,9 +40,36 @@ var PlayerMarker = React.createClass({
 
     return {
       top: x+"px",
-      left: y+"px",
+      left: y+"px"
+    };
+  },
+  _getFrontStyle:function (){
+    var x_ratio = this.state.x/100;
+    if (this.state.side==="right"){
+      x_ratio=1-x_ratio;
+    }
+    var x = ~~(x_ratio*this.state.boardHeight);
+
+    return {
       zIndex: x
     };
+  },
+
+  /* React Method *********************************************************************/
+  getInitialState: function() {
+    return {
+      dragging: false,
+      selected: false,
+      number: this.props.number,
+      color: this.props.color,
+      x:this.props.x || 0,
+      y:this.props.y || 0,
+      boardWidth: this.props.boardWidth ||100,
+      boardHeight: this.props.boardHeight ||100,
+      side: this.props.side || "left",
+    };
+  },
+  componentDidMount: function (){
   },
   render:function(){
     var className = "playerMarker";
@@ -62,14 +77,18 @@ var PlayerMarker = React.createClass({
     if (this.state.selected) className+=" selected";
 
     return(
-      <div className={className} style={this.getStyle()} onselectstart="return false;" onMouseDown={this.select}>
-        <div className="number">{this.state.number}</div>
-        <div className="cloth-cover"></div>
-        <div className="cloth-border"></div>
-        <div className="cloth-dark"></div>
-        <div className="cloth-color" style={{color: this.state.color}}></div>
-        <div className="circle"></div>
-        <div className="shadow"></div>
+      <div className={className} style={this._getStyle()} onselectstart="return false;" onMouseDown={this.select}>
+        <div className="front" style={this._getFrontStyle()}>
+          <div className="number">{this.state.number}</div>
+          <div className="cloth-cover"></div>
+          <div className="cloth-border"></div>
+          <div className="cloth-dark"></div>
+          <div className="cloth-color" style={{color: this.state.color}}></div>
+          <div className="shadow"></div>
+        </div>
+        <div className="back">
+          <div className="circle"></div>
+        </div>
       </div>
     );
   }
