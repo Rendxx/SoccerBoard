@@ -5,6 +5,7 @@ var PlayerMarker = React.createClass({
   getInitialState: function() {
     return {
       dragging: false,
+      selected: false,
       number: this.props.number,
       color: this.props.color,
       x:this.props.x || 0,
@@ -28,6 +29,17 @@ var PlayerMarker = React.createClass({
       y: y
     });
   },
+  select: function (){
+    this.setState({
+      selected: true
+    });
+    this.props.onSelected && this.props.onSelected();
+  },
+  unselect: function (){
+    this.setState({
+      selected: false
+    });
+  },
   getStyle: function (){
     var x_ratio = this.state.x/100;
     var y_ratio = this.state.y/100;
@@ -47,13 +59,16 @@ var PlayerMarker = React.createClass({
   render:function(){
     var className = "playerMarker";
     if (this.state.dragging) className+=" dragging";
+    if (this.state.selected) className+=" selected";
 
     return(
-      <div className={className} style={this.getStyle()} onselectstart="return false;">
+      <div className={className} style={this.getStyle()} onselectstart="return false;" onMouseDown={this.select}>
         <div className="number">{this.state.number}</div>
+        <div className="cloth-cover"></div>
         <div className="cloth-border"></div>
         <div className="cloth-dark"></div>
         <div className="cloth-color" style={{color: this.state.color}}></div>
+        <div className="circle"></div>
         <div className="shadow"></div>
       </div>
     );
