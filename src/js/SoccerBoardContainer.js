@@ -25,7 +25,7 @@ var SoccerBoardContainer = React.createClass({
     this.refs.startScreen.resize(w*0.6,h);
     this.refs.teamPanel.resize(w*radioStand[0]+460,h*radioStand[1], w*radioBorder[0],h*radioBorder[1]);
   },
-  
+
   /* Private Method *********************************************************************/
   _onMouseEnter:function(){
     this.refs.startScreen.hover(true);
@@ -65,7 +65,7 @@ var SoccerBoardContainer = React.createClass({
     var className = "soccerBoardContainer";
     if (this.state.started) className+=" started";
     return(
-      <div className={className} ref="soccerBoardContainer">
+      <div className={className} ref="soccerBoardContainer" onselectstart="return false;">
         <StartScreen ref="startScreen" onHover={[this._onMouseEnter, this._onMouseLeave]} onStart={this._start}/>
         <TeamPanel ref="teamPanel"/>
         <SoccerField ref="soccerField" fieldStyle={fieldStyle}/>

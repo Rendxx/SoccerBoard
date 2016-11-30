@@ -12,6 +12,8 @@ var SoccerField = React.createClass({
   resize:function(w, h, w_field, h_field){
     this.refs.soccerField.style.width = w+"px";
     this.refs.soccerField.style.height = h+"px";
+    this.refs.soccerField.style.marginTop = -(h>>1)+"px";
+    this.refs.soccerField.style.marginLeft = -(w>>1)+"px";
     this.refs.playerBoard.resize(w_field, h_field);
   },
   hover:function(isHover){
@@ -53,7 +55,7 @@ var SoccerField = React.createClass({
     var class_grass='grass ' + (this.props.fieldStyle.grass?this.props.fieldStyle.grass:'');
 
     return(
-      <div className={class_soccerField} ref="soccerField" onTransitionEnd={this._transitionEnd}>
+      <div className={class_soccerField} ref="soccerField" onTransitionEnd={this._transitionEnd} onselectstart="return false;">
         <div className={class_top}></div>
         <div className={class_stands}></div>
         <PlayerBoard ref="playerBoard" />

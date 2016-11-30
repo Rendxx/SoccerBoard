@@ -13,6 +13,8 @@ var PlayerBoard = React.createClass({
   resize:function(w, h){
     this.refs.playerBoard.style.width = w+"px";
     this.refs.playerBoard.style.height = h+"px";
+    this.refs.playerBoard.style.marginTop = -(h>>1)+"px";
+    this.refs.playerBoard.style.marginLeft = -(w>>1)+"px";
 
     if (this.state.teamLeft!=null) for (var i=0;i<this.state.teamLeft.starting.length;i++) this.refs["l"+i].setBoardDimension(w,h);
     if (this.state.teamRight!=null) for (var i=0;i<this.state.teamRight.starting.length;i++) this.refs["r"+i].setBoardDimension(w,h);
@@ -35,10 +37,11 @@ var PlayerBoard = React.createClass({
     var cb = function (){
       if (this.state.selectedRefId!==null) this.refs[this.state.selectedRefId].unselect();
       this.setState({selectedRefId:refId});
+      this.refs[refId].select();
     };
     return cb.bind(this);
   },
-  
+
   /* React Method *********************************************************************/
   getInitialState: function() {
     return {
@@ -55,7 +58,7 @@ var PlayerBoard = React.createClass({
     if (this.state.hidden)className+= " hidden";
 
     return(
-      <div className={className} ref="playerBoard">
+      <div className={className} ref="playerBoard" onselectstart="return false;">
       {
         this.state.teamLeft && this.state.teamLeft.starting.map((playerNumber, arrIdx) => (
             <PlayerMarker ref={"l"+ arrIdx}
@@ -66,7 +69,8 @@ var PlayerBoard = React.createClass({
               side="left"
               boardWidth={this.state.boardWidth}
               boardHeight={this.state.boardHeight}
-              onSelected={(this._buildOnSelectedCallback("l"+ arrIdx))}
+              onMouseDown={(this._buildOnSelectedCallback("l"+ arrIdx))}
+              container={this.refs.playerBoard}
             />
         ))
       }
@@ -80,7 +84,8 @@ var PlayerBoard = React.createClass({
               side="right"
               boardWidth={this.state.boardWidth}
               boardHeight={this.state.boardHeight}
-              onSelected={(this._buildOnSelectedCallback("r"+ arrIdx))}
+              onMouseDown={(this._buildOnSelectedCallback("r"+ arrIdx))}
+              container={this.refs.playerBoard}
             />
         ))
       }

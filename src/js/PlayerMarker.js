@@ -1,4 +1,6 @@
 var React = require('react');
+var Util = require('./Util.js');
+
 var style = require('../less/PlayerMarker.less');
 
 var PlayerMarker = React.createClass({
@@ -19,7 +21,6 @@ var PlayerMarker = React.createClass({
     this.setState({
       selected: true
     });
-    this.props.onSelected && this.props.onSelected();
   },
   unselect: function (){
     this.setState({
@@ -51,8 +52,35 @@ var PlayerMarker = React.createClass({
     var x = ~~(x_ratio*this.state.boardHeight);
 
     return {
-      zIndex: x
+      zIndex: x+10
     };
+  },
+  _mouseDown: function (e){
+    this.setState({
+      dragging:true
+    });
+    this.props.onMouseDown&&this.props.onMouseDown();
+  },
+  _mouseMove: function (e){
+    if (!this.state.dragging) return false;
+    var mousePos = Util.getMousePos(e, this.props.container);
+    var pos = [mousePos[0]/this.state.boardWidth*100, mousePos[1]/this.state.boardHeight*100]
+
+    console.log(mousePos);
+
+    if (this.state.side==="right"){
+      pos[0]=100-pos[0];
+      pos[1]=100-pos[1];
+    }
+    this.setState({
+      x:Math.max(Math.min(pos[1],100),0),
+      y:Math.max(Math.min(pos[0],100),0)
+    });
+  },
+  _mouseUp: function (e){
+    this.setState({
+      dragging:false
+    });
   },
 
   /* React Method *********************************************************************/
@@ -66,10 +94,19 @@ var PlayerMarker = React.createClass({
       y:this.props.y || 0,
       boardWidth: this.props.boardWidth ||100,
       boardHeight: this.props.boardHeight ||100,
-      side: this.props.side || "left",
+      side: this.props.side || "left"
     };
   },
   componentDidMount: function (){
+    document.body.addEventListener('mousemove', this._mouseMove);
+    document.body.addEventListener('mouseup', this._mouseUp);
+    document.body.addEventListener('mouseout', function(e) {
+        e = e ? e : window.event;
+        var from = e.relatedTarget || e.toElement;
+        if (!from || from.nodeName == "HTML") {
+            this._mouseUp(e);
+        }
+    }.bind(this));
   },
   render:function(){
     var className = "playerMarker";
@@ -77,7 +114,8 @@ var PlayerMarker = React.createClass({
     if (this.state.selected) className+=" selected";
 
     return(
-      <div className={className} style={this._getStyle()} onselectstart="return false;" onMouseDown={this.select}>
+      <div className={className} style={this._getStyle()} onselectstart="return false;"
+        onMouseDown={this._mouseDown}>
         <div className="front" style={this._getFrontStyle()}>
           <div className="number">{this.state.number}</div>
           <div className="cloth-cover"></div>
