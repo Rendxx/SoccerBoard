@@ -1,5 +1,6 @@
 var React = require('react');
 var PlayerBoard = require('./PlayerBoard.js');
+var DrawingPanel = require('./DrawingPanel.js');
 
 var style = require('../less/SoccerField.less');
 
@@ -15,6 +16,7 @@ var SoccerField = React.createClass({
     this.refs.soccerField.style.marginTop = -(h>>1)+"px";
     this.refs.soccerField.style.marginLeft = -(w>>1)+"px";
     this.refs.playerBoard.resize(w_field, h_field);
+    this.refs.drawingPanel.resize(w_field, h_field);
   },
   hover:function(isHover){
     this.setState({
@@ -59,6 +61,8 @@ var SoccerField = React.createClass({
         <div className={class_top}></div>
         <div className={class_stands}></div>
         <PlayerBoard ref="playerBoard" />
+        <div className="drawingSensor" ref="drawingSensor"></div>
+        <DrawingPanel ref="drawingPanel" sensor={this.refs.drawingSensor} />
         <div className={class_grass}></div>
       </div>
     );
