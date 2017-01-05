@@ -45,6 +45,9 @@ var SoccerField = React.createClass({
       animation:true
     };
   },
+  componentDidMount:function(){
+      this.refs.drawingPanel.setup(this.refs.drawingSensor);
+  },
   render:function(){
     var class_soccerField='soccerField ' + this.props.fieldStyle.field;
     if (this.state.animation) class_soccerField+= " animation"
@@ -62,7 +65,7 @@ var SoccerField = React.createClass({
         <div className={class_stands}></div>
         <PlayerBoard ref="playerBoard" />
         <div className="drawingSensor" ref="drawingSensor"></div>
-        <DrawingPanel ref="drawingPanel" sensor={this.refs.drawingSensor} />
+        <DrawingPanel ref="drawingPanel" />
         <div className={class_grass}></div>
       </div>
     );

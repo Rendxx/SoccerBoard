@@ -6,6 +6,40 @@ var widthRatio = 0.01;
 
 var DrawingPanel = React.createClass({
   /* Public Method *********************************************************************/
+  setup:function(sensor){
+    sensor.className = "drawingSensor";
+
+    var drawingList=[];
+    var _drawing = new $$.Draw.FreeDraw(this.refs.drawingPanel);
+    var started = false;
+    var _mousedown = function (e) {
+        started = true;
+        sensor.className = "drawingSensor top";
+        _drawing.startDrawing({
+            strokeStyle: '#555',
+            lineWidth: this.state.width*widthRatio,
+            lineCap: 'round'
+        });
+    }.bind(this);
+    var _mouseup = function (e) {
+        if (!started) return;
+        started = false;
+        sensor.className = "drawingSensor";
+        _drawing.stopDrawing();
+        var img = _drawing.getImage();
+        drawingList.length = ++drawingListIdx;
+        drawingList.push(img);
+        _drawing.clear();
+        this._render(drawingList);
+    }.bind(this);
+
+    sensor.addEventListener('mouseout', _mouseup, false);
+    sensor.addEventListener('mouseup', _mouseup, false);
+    sensor.addEventListener('mousedown', _mousedown, false);
+    this.setState({
+      setuped: true
+    });
+  },
   hover:function(isHover){
     this.setState({
       hover: isHover
@@ -30,6 +64,7 @@ var DrawingPanel = React.createClass({
 
   /* Private Method *********************************************************************/
   _render:function(drawingListIdx){
+    if (!this.state.setuped) return;
     this.state.ctx.clearRect(0, 0, this.refs.scene.width, this.refs.scene.height);
     for (var i = 0; i <= drawingListIdx; i++) {
         this.state.ctx.drawImage(drawingList[i], 0, 0, this.state.width, this.state.height);
@@ -39,44 +74,16 @@ var DrawingPanel = React.createClass({
   /* React Method *********************************************************************/
   getInitialState: function() {
     return {
+      setuped:false,
       ctx:null,
       width:400,
       height:300
     };
   },
   componentDidMount:function(){
-    this.props.sensor.className = "drawingSensor";
     this.setState({
       ctx: this.refs.scene.getContext("2d")
     });
-
-    var drawingList=[];
-    var _drawing = new $$.Draw.FreeDraw(this.refs.drawingPanel);
-    var started = false;
-    var _mousedown = function (e) {
-        started = true;
-        this.props.sensor.className = "drawingSensor top";
-        _drawing.startDrawing({
-            strokeStyle: '#555',
-            lineWidth: this.state.width*widthRatio,
-            lineCap: 'round'
-        });
-    }.bind(this);
-    var _mouseup = function (e) {
-        if (!started) return;
-        started = false;
-        this.props.sensor.className = "drawingSensor";
-        _drawing.stopDrawing();
-        var img = _drawing.getImage();
-        drawingList.length = ++drawingListIdx;
-        drawingList.push(img);
-        _drawing.clear();
-        this._render(drawingList);
-    }.bind(this);
-
-    this.props.sensor.addEventListener('mouseout', _mouseup, false);
-    this.props.sensor.addEventListener('mouseup', _mouseup, false);
-    this.props.sensor.addEventListener('mousedown', _mousedown, false);
   },
   render:function(){
     var className = "drawingPanel";
