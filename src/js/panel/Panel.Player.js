@@ -1,9 +1,8 @@
+require('LESS/Panel.Player.less');
 var React = require('react');
-var PlayerMarker = require('./PlayerMarker.js');
+var PlayerMarker = require('COMPONENT/Component.PlayerMarker.js');
 
-var style = require('../less/PlayerBoard.less');
-
-var PlayerBoard = React.createClass({
+var PanelPlayer = React.createClass({
   /* Public Method *********************************************************************/
   show:function(){
     this.setState({
@@ -11,10 +10,10 @@ var PlayerBoard = React.createClass({
     });
   },
   resize:function(w, h){
-    this.refs.playerBoard.style.width = w+"px";
-    this.refs.playerBoard.style.height = h+"px";
-    this.refs.playerBoard.style.marginTop = -(h>>1)+"px";
-    this.refs.playerBoard.style.marginLeft = -(w>>1)+"px";
+    this.refs.self.style.width = w+"px";
+    this.refs.self.style.height = h+"px";
+    this.refs.self.style.marginTop = -(h>>1)+"px";
+    this.refs.self.style.marginLeft = -(w>>1)+"px";
 
     if (this.state.teamLeft!=null) for (var i=0;i<this.state.teamLeft.starting.length;i++) this.refs["l"+i].setBoardDimension(w,h);
     if (this.state.teamRight!=null) for (var i=0;i<this.state.teamRight.starting.length;i++) this.refs["r"+i].setBoardDimension(w,h);
@@ -54,11 +53,11 @@ var PlayerBoard = React.createClass({
     };
   },
   render:function(){
-    var className='playerBoard';
+    var className='panel-player';
     if (this.state.hidden)className+= " hidden";
 
     return(
-      <div className={className} ref="playerBoard" onselectstart="return false;">
+      <div className={className} ref="self" onselectstart="return false;">
       {
         this.state.teamLeft && this.state.teamLeft.starting.map((playerNumber, arrIdx) => (
             <PlayerMarker ref={"l"+ arrIdx}
@@ -70,7 +69,7 @@ var PlayerBoard = React.createClass({
               boardWidth={this.state.boardWidth}
               boardHeight={this.state.boardHeight}
               onMouseDown={(this._buildOnSelectedCallback("l"+ arrIdx))}
-              container={this.refs.playerBoard}
+              container={this.refs.self}
             />
         ))
       }
@@ -85,7 +84,7 @@ var PlayerBoard = React.createClass({
               boardWidth={this.state.boardWidth}
               boardHeight={this.state.boardHeight}
               onMouseDown={(this._buildOnSelectedCallback("r"+ arrIdx))}
-              container={this.refs.playerBoard}
+              container={this.refs.self}
             />
         ))
       }
@@ -94,4 +93,4 @@ var PlayerBoard = React.createClass({
   }
 });
 
-module.exports = PlayerBoard;
+module.exports = PanelPlayer;

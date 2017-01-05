@@ -1,8 +1,8 @@
+require('LESS/Module.Team.less');
 var React = require('react');
-var Team = require('./Team.js');
-var style = require('../less/TeamPanel.less');
+var Team = require('TEAM/Team.Pad.js');
 
-var TeamPanel = React.createClass({
+var TeamModule = React.createClass({
   /* Public Method *********************************************************************/
   show:function(){
     this.setState({
@@ -15,8 +15,8 @@ var TeamPanel = React.createClass({
     if (dat.right)this.refs.teamRight.loadPlayer(dat.right);
   },
   resize:function(w, h, w_border, h_border){
-    this.refs.teamPanel.style.width = w+"px";
-    this.refs.teamPanel.style.height = h+"px";
+    this.refs.teamModule.style.width = w+"px";
+    this.refs.teamModule.style.height = h+"px";
     var marginTop = (h- h_border)/2-60;
     this.refs.teamLeft.setMarginTop(marginTop);
     this.refs.teamRight.setMarginTop(marginTop);
@@ -38,12 +38,12 @@ var TeamPanel = React.createClass({
     };
   },
   render:function(){
-    var className='teamPanel';
+    var className='teamModule';
     if (this.state.hidden)className+= " hidden";
     if (this.state.animation)className+= " animation";
 
     return(
-      <div className={className} ref="teamPanel" onTransitionEnd={this._transitionEnd}>
+      <div className={className} ref="teamModule" onTransitionEnd={this._transitionEnd}>
         <Team ref="teamLeft" posAlign="left" />
         <Team ref="teamRight" posAlign="right" />
       </div>
@@ -51,4 +51,4 @@ var TeamPanel = React.createClass({
   }
 });
 
-module.exports = TeamPanel;
+module.exports = TeamModule;

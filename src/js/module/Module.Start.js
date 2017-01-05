@@ -1,8 +1,8 @@
+require('LESS/Module.Start.less');
 var React = require('react');
-var SoccerBoardTag = require('./SoccerBoardTag.js');
-var style = require('../less/StartScreen.less');
+//var BoardTag = require('COMPONENT/Component.BoardTag.js');
 
-var StartScreen = React.createClass({
+var StartModule = React.createClass({
   /* Public Method *********************************************************************/
   resize:function(w, h){
     this.refs.instruction.style.marginLeft = w/2+40+"px";
@@ -11,19 +11,19 @@ var StartScreen = React.createClass({
     this.setState({
       hover: isHover
     });
-    this.refs.soccerBoardTag.hover(isHover);
+    //this.refs.boardTag.hover(isHover);
   },
   hide:function(){
     this.setState({
       show: false
     });
-    this.refs.soccerBoardTag.hide();
+    //this.refs.boardTag.hide();
   },
 
   /* Private Method *********************************************************************/
   _transitionEnd:function(){
     if (this.state.show) return;
-    this.refs.startScreen.style.display = "none";
+    this.refs.startModule.style.display = "none";
   },
   _buildInstruction: function (){
     return {__html:this.state.instruction.map(function(str){return '<span>'+str+'</span>';}).join('')};
@@ -41,17 +41,16 @@ var StartScreen = React.createClass({
     };
   },
   render:function(){
-    var className = "startScreen";
+    var className = "startModule";
     if (!this.state.show) className+=" hidden";
     else if (this.state.hover) className+=" hover";
     return(
-      <div className={className} ref="startScreen" onClick={this.start} onTransitionEnd={this._transitionEnd}>
+      <div className={className} ref="startModule" onClick={this.start} onTransitionEnd={this._transitionEnd}>
         <div className="sensor" onMouseEnter={this.props.onHover[0]} onMouseLeave={this.props.onHover[1]} onClick={this.props.onStart}></div>
-        <SoccerBoardTag ref="soccerBoardTag" />
         <div className="instruction" ref="instruction" dangerouslySetInnerHTML={this._buildInstruction()} />
       </div>
     );
   }
 });
 
-module.exports = StartScreen;
+module.exports = StartModule;

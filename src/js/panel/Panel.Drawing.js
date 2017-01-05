@@ -1,16 +1,16 @@
+require('LESS/Panel.Drawing.less');
 var React = require('react');
-var Drawing = require('../../bower_components/drawing/js/Drawing.min.js');
-var style = require('../less/DrawingPanel.less');
+var Drawing = require('BOWER/drawing/js/Drawing.min.js');
 
 var widthRatio = 0.01;
 
-var DrawingPanel = React.createClass({
+var PanelDrawing = React.createClass({
   /* Public Method *********************************************************************/
   setup:function(sensor){
     sensor.className = "drawingSensor";
 
     var drawingList=[];
-    var _drawing = new $$.Draw.FreeDraw(this.refs.drawingPanel);
+    var _drawing = new $$.Draw.FreeDraw(this.refs.self);
     var started = false;
     var _mousedown = function (e) {
         started = true;
@@ -51,10 +51,10 @@ var DrawingPanel = React.createClass({
     });
   },
   resize:function(w, h){
-    this.refs.drawingPanel.style.width = w+"px";
-    this.refs.drawingPanel.style.height = h+"px";
-    this.refs.drawingPanel.style.marginTop = -(h>>1)+"px";
-    this.refs.drawingPanel.style.marginLeft = -(w>>1)+"px";
+    this.refs.self.style.width = w+"px";
+    this.refs.self.style.height = h+"px";
+    this.refs.self.style.marginTop = -(h>>1)+"px";
+    this.refs.self.style.marginLeft = -(w>>1)+"px";
     this.setState({
       width: w,
       height: h
@@ -86,13 +86,13 @@ var DrawingPanel = React.createClass({
     });
   },
   render:function(){
-    var className = "drawingPanel";
+    var className = "panel-drawing";
     return(
-      <div className={className} ref="drawingPanel">
+      <div className={className} ref="self">
         <canvas className="scene" ref="scene" width={this.state.width} height={this.state.height}></canvas>
       </div>
     );
   }
 });
 
-module.exports = DrawingPanel;
+module.exports = PanelDrawing;

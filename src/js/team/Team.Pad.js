@@ -1,11 +1,11 @@
+require('LESS/Team.Pad.less');
 var React = require('react');
-var PlayerItem = require('./PlayerItem.js');
-var style = require('../less/Team.less');
+var PlayerItem = require('TEAM/Team.PlayerItem.js');
 
-var Team = React.createClass({
+var TeamPad = React.createClass({
   /* Public Method *********************************************************************/
   setMarginTop :function (t){
-    this.refs.team.style.marginTop=t+"px";
+    this.refs.self.style.marginTop=t+"px";
   },
   loadPlayer:function(teamDat){
     this.setState({
@@ -32,17 +32,17 @@ var Team = React.createClass({
   componentDidMount: function (){
   },
   render:function(){
-    var className = "team";
+    var className = "teamPad";
     if (this.props.posAlign==="left") className+=" left";
     else  className+=" right";
     var textAlign;
     if (this.props.textAlign==="left") textAlign="left";
     else if (this.props.textAlign==="right") textAlign="right";
     else textAlign=(this.props.posAlign==="left")?"right":"left";
-    var nameClass="team-name "+(textAlign==="left"?"textLeft":"textRight");
+    var nameClass="teamPad-name "+(textAlign==="left"?"textLeft":"textRight");
 
     return(
-      <div className={className} ref="team">
+      <div className={className} ref="self">
         <div className={nameClass}><span>{this.state.name}</span> </div>
         <div className="player-starting">{
           this.state.starting.map((number) => (
@@ -64,4 +64,4 @@ var Team = React.createClass({
   }
 });
 
-module.exports = Team;
+module.exports = TeamPad;

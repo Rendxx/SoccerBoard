@@ -1,4 +1,4 @@
-.soccerField {
+.soccerModule {
   position:absolute;
   top:45%;
   left:50%;
@@ -6,10 +6,12 @@
   transform: scale(1);
   -moz-user-select:none;
   -webkit-user-select:none;
-  backface-visibility: hidden;
+  //backface-visibility: hidden;
 
   &.animation{
-    transition: top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition-property: top, transform;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   ._layer{
@@ -48,8 +50,8 @@
   }
 
   &.minimize{
-    top:60%;
-    transform: scale(0.6);
+    top:50%;
+    transform: scale(0.68);
     .top{
       opacity: 1;
     }
@@ -59,11 +61,11 @@
   }
 
   &.hover{
-    transform: scale(0.64);
+    transform: scale(0.72);
   }
 }
 
-.soccerField {
+.soccerModule {
   &.default{
     .top{
       background-image: url('../image/SoccerField_top.png');

@@ -1,7 +1,6 @@
+require('LESS/Component.PlayerMarker.less');
 var React = require('react');
-var Util = require('./Util.js');
-
-var style = require('../less/PlayerMarker.less');
+var Util = require('JS/Util.js');
 
 var PlayerMarker = React.createClass({
   /* Public Method *********************************************************************/
@@ -56,15 +55,23 @@ var PlayerMarker = React.createClass({
     };
   },
   _mouseDown: function (e){
+    var mousePos = Util.getMousePos(e, this.props.container);
     this.setState({
-      dragging:true
+      dragging:true,
+      moveOffset:[
+        mousePos[0]/this.state.boardWidth*100-(this.state.side==="right"?100-this.state.y:this.state.y),
+        mousePos[1]/this.state.boardHeight*100-(this.state.side==="right"?100-this.state.x:this.state.x)
+      ]
     });
     this.props.onMouseDown&&this.props.onMouseDown();
   },
   _mouseMove: function (e){
     if (!this.state.dragging) return false;
     var mousePos = Util.getMousePos(e, this.props.container);
-    var pos = [mousePos[0]/this.state.boardWidth*100, mousePos[1]/this.state.boardHeight*100]
+    var pos = [
+      mousePos[0]/this.state.boardWidth*100-this.state.moveOffset[0],
+      mousePos[1]/this.state.boardHeight*100-this.state.moveOffset[1]
+    ];
 
     console.log(mousePos);
 
@@ -79,7 +86,8 @@ var PlayerMarker = React.createClass({
   },
   _mouseUp: function (e){
     this.setState({
-      dragging:false
+      dragging:false,
+      moveOffset:[0,0]
     });
   },
 
@@ -94,7 +102,8 @@ var PlayerMarker = React.createClass({
       y:this.props.y || 0,
       boardWidth: this.props.boardWidth ||100,
       boardHeight: this.props.boardHeight ||100,
-      side: this.props.side || "left"
+      side: this.props.side || "left",
+      moveOffset:[0,0]
     };
   },
   componentDidMount: function (){

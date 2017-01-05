@@ -1,5 +1,5 @@
+require('LESS/Team.PlayerItem.less');
 var React = require('react');
-var style = require('../less/PlayerItem.less');
 
 var PlayerItem = React.createClass({
   /* Public Method *********************************************************************/

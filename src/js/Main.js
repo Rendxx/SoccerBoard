@@ -1,9 +1,8 @@
+require('../font/soccerIcon/style.css');
+require('../less/Main.less');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var SoccerBoardContainer = require('./SoccerBoardContainer.js');
-var font = require('../font/soccerIcon/style.css');
-
-var style = require('../less/Main.less');
 
 var team1={
   name:"Team 1",

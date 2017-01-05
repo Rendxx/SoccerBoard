@@ -1,22 +1,21 @@
+require('LESS/Module.Soccer.less');
 var React = require('react');
-var PlayerBoard = require('./PlayerBoard.js');
-var DrawingPanel = require('./DrawingPanel.js');
+var PanelPlayer = require('PANEL/Panel.Player.js');
+var PanelDrawing = require('PANEL/Panel.Drawing.js');
 
-var style = require('../less/SoccerField.less');
-
-var SoccerField = React.createClass({
+var SoccerModule = React.createClass({
   /* Public Method *********************************************************************/
   loadTeam: function (dat){
     if (!dat) return;
-    this.refs.playerBoard.loadTeam(dat);
+    this.refs.panelPlayer.loadTeam(dat);
   },
   resize:function(w, h, w_field, h_field){
-    this.refs.soccerField.style.width = w+"px";
-    this.refs.soccerField.style.height = h+"px";
-    this.refs.soccerField.style.marginTop = -(h>>1)+"px";
-    this.refs.soccerField.style.marginLeft = -(w>>1)+"px";
-    this.refs.playerBoard.resize(w_field, h_field);
-    this.refs.drawingPanel.resize(w_field, h_field);
+    this.refs.soccerModule.style.width = w+"px";
+    this.refs.soccerModule.style.height = h+"px";
+    this.refs.soccerModule.style.marginTop = -(h>>1)+"px";
+    this.refs.soccerModule.style.marginLeft = -(w>>1)+"px";
+    this.refs.panelPlayer.resize(w_field, h_field);
+    this.refs.panelDrawing.resize(w_field, h_field);
   },
   hover:function(isHover){
     this.setState({
@@ -27,7 +26,7 @@ var SoccerField = React.createClass({
     this.setState({
       min: false
     });
-    this.refs.playerBoard.show();
+    this.refs.panelPlayer.show();
   },
 
   /* Private Method *********************************************************************/
@@ -42,14 +41,17 @@ var SoccerField = React.createClass({
     return {
       min: true,
       hover: false,
-      animation:true
+      animation:false
     };
   },
   componentDidMount:function(){
-      this.refs.drawingPanel.setup(this.refs.drawingSensor);
+      this.refs.panelDrawing.setup(this.refs.drawingSensor);
+      this.setState({
+        animation:true
+      });
   },
   render:function(){
-    var class_soccerField='soccerField ' + this.props.fieldStyle.field;
+    var class_soccerField='soccerModule ' + this.props.fieldStyle.field;
     if (this.state.animation) class_soccerField+= " animation"
     if (this.state.min){
       class_soccerField+= " minimize"
@@ -60,16 +62,16 @@ var SoccerField = React.createClass({
     var class_grass='grass ' + (this.props.fieldStyle.grass?this.props.fieldStyle.grass:'');
 
     return(
-      <div className={class_soccerField} ref="soccerField" onTransitionEnd={this._transitionEnd} onselectstart="return false;">
+      <div className={class_soccerField} ref="soccerModule" onTransitionEnd={this._transitionEnd} onselectstart="return false;">
         <div className={class_top}></div>
         <div className={class_stands}></div>
-        <PlayerBoard ref="playerBoard" />
         <div className="drawingSensor" ref="drawingSensor"></div>
-        <DrawingPanel ref="drawingPanel" />
+        <PanelPlayer ref="panelPlayer" />
+        <PanelDrawing ref="panelDrawing" />
         <div className={class_grass}></div>
       </div>
     );
   }
 });
 
-module.exports = SoccerField;
+module.exports = SoccerModule;

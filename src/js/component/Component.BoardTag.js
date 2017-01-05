@@ -1,10 +1,10 @@
+require('LESS/Component.BoardTag.less');
 var React = require('react');
-var style = require('../less/SoccerBoardTag.less');
-var grassBg = require('../image/grass-bg.png');
+var grassBg = require('IMAGE/grass-bg.png');
 var img_grassBg = new Image();
 img_grassBg.src = grassBg;
 
-var SoccerBoardTag = React.createClass({
+var BoardTag = React.createClass({
   /* Public Method *********************************************************************/
   hover:function(isHover){
     this.setState({
@@ -52,7 +52,7 @@ var SoccerBoardTag = React.createClass({
     this._renderBg();
   },
   render:function(){
-    var className = "soccerBoardTag";
+    var className = "boardTag";
     if (this.state.hide) className+=" hidden";
     else if (this.state.hover) className+=" hover";
     return(
@@ -65,4 +65,4 @@ var SoccerBoardTag = React.createClass({
   }
 });
 
-module.exports = SoccerBoardTag;
+module.exports = BoardTag;

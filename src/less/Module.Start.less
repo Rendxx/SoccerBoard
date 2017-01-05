@@ -1,10 +1,10 @@
-.startScreen{
+.startModule{
   position:absolute;
   top:0;
   left:0;
   width:100%;
   height:100%;
-  background-color: rgba(255,255,255, 0.4);
+  //background-color: rgba(255,255,255, 0.2);
   z-index:50;
   transition: 0.75s;
   backface-visibility: hidden;
@@ -12,7 +12,7 @@
 
   .instruction{
     position: absolute;
-    top:60%;
+    top:50%;
     left:50%;
     width:200px;
     text-align: left;
@@ -30,7 +30,7 @@
 
   .sensor{
     position: absolute;
-    top:60%;
+    top:50%;
     left:50%;
     width:600px;
     height:480px;
@@ -42,7 +42,7 @@
 
   &:after{
     position:absolute;
-    top:60%;
+    top:50%;
     left:50%;
     text-align: center;
     content:'< click to start >';
@@ -58,7 +58,7 @@
   }
 
   &.hover{
-    background-color: rgba(255,255,255, 0.2);
+    //background-color: rgba(255,255,255, 0.1);
     .instruction{
       opacity: 0.6;
       transform: translateX(40px);

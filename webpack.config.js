@@ -5,15 +5,17 @@ var node_modules = path.resolve(__dirname, 'node_modules');
 var pathToReact = path.resolve(node_modules, 'react/dist/react.min.js');
 var pathToReactDom = path.resolve(node_modules, 'react-dom/dist/react-dom.min.js');
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
-var extractTextPlugin = new ExtractTextPlugin("../style/[name].css")
+var extractTextPlugin = new ExtractTextPlugin("../style/[name].css");
+var root = path.resolve(__dirname);
+var minimize = process.argv.indexOf('--optimize-minimize') !== -1;
 
-module.exports = {
+var setting = {
     plugins: [
       commonsPlugin,
       extractTextPlugin
     ],
     entry: {
-        index : './src/js/Main'
+        soccerBoard : './src/js/Main'
     },
     output: {
         path: 'public/wwwroot/script',
@@ -57,7 +59,20 @@ module.exports = {
         extensions: ['', '.js', '.json', '.scss'],
         alias:{
           'react': pathToReact,
-          'react-dom': pathToReactDom
+          'react-dom': pathToReactDom,
+          'BOWER': root+'/bower_components',
+          'MODULE': root+'/src/js/module',
+          'PANEL': root+'/src/js/panel',
+          'COMPONENT': root+'/src/js/component',
+          'TEAM': root+'/src/js/team',
+          'JS': root+'/src/js',
+          'LESS': root+'/src/less',
+          'IMAGE': root+'/src/image',
         }
     }
 };
+
+if (minimize) setting.entry = {
+    'soccerBoard.min' : './src/js/Main'
+}
+module.exports = setting;
