@@ -17,7 +17,7 @@ var SoccerBoardContainer = React.createClass({
     this.refs.soccerModule.loadTeam(dat);
   },
   resize:function(){
-    var w = Math.max(600,this.refs.soccerBoardContainer.offsetWidth-460);
+    var w = this.refs.soccerBoardContainer.offsetWidth-480;
     var h = this.refs.soccerBoardContainer.offsetHeight;
     if (w>h/4*5) w = h/4*5;
     else if (h>w/5*4) h = w/5*4;

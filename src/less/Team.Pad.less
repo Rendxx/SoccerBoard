@@ -2,7 +2,9 @@
   overflow: visible;
   position:absolute;
   top:0;
-  width:200px;
+  box-sizing:border-box;
+  backface-visibility: hidden;
+  width:240px;
   height: 700px;
   color:#333;
 
@@ -11,18 +13,28 @@
     width:100%;
     height:50px;
     line-height:50px;
+    box-sizing:border-box;
+
     &.textLeft{
       text-align: left;
+      padding-left: 30px;
     }
     &.textRight{
       text-align: right;
+      padding-right: 30px;
     }
+  }
+
+  .player-starting, .player-bench, .player-rest{
+      transition-duration: 0.2s;
+      transition-property: color, background-color;
+      padding:15px 30px;
+      box-sizing: border-box;
   }
 
   .player-starting, .player-bench{
     overflow: visible;
     position:relative;
-    margin-top:20px;
     width:100%;
     &:after{
       .line;
@@ -32,8 +44,16 @@
     }
   }
 
+  .player-starting{
+    color:#333;
+  }
+  .player-bench{
+    color:#666;
+    margin-top:-1px;
+  }
   .player-rest{
     display: none;
+    color:#999;
   }
 
   &.left{
@@ -43,9 +63,9 @@
       background: linear-gradient(to left, rgba(220,220,220,255), rgba(220,220,220,160), rgba(220,220,220,0));
     }
     .player-starting:before, .player-bench:before{
-      right:-40px;
-      width:40px;
-      background: linear-gradient(to right, rgba(220,220,220,255), rgba(220,220,220,160), rgba(220,220,220,0));
+      right:-200px;
+      width:200px;
+      background: linear-gradient(to right, rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,0));
     }
   }
 
@@ -56,9 +76,9 @@
       background: linear-gradient(to right, rgba(220,220,220,255), rgba(220,220,220,160), rgba(220,220,220,0));
     }
     .player-starting:before, .player-bench:before{
-      left:-40px;
-      width:40px;
-      background: linear-gradient(to left, rgba(220,220,220,255), rgba(220,220,220,160), rgba(220,220,220,0));
+      left:-200px;
+      width:200px;
+      background: linear-gradient(to left, rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,0));
     }
   }
 
@@ -67,7 +87,33 @@
     width:100%;
     height:1px;
     position:absolute;
-    top:-11px;
+    top:0;
     background-color: rgba(220,220,220,255);
+    transition-duration: 0.2s;
+    transition-property: opacity;
+  }
+
+  &:hover{
+    .player-starting{
+        color:#fff;
+        background-color: #333;
+        &:after{
+          opacity: 0;
+        }
+    }
+    .player-bench{
+        color:#ccc;
+        background-color: #393939;
+        &:after{
+          opacity: 0;
+        }
+    }
+    .player-rest{
+        color:#ccc;
+        background-color: #393939;
+        &:after{
+          opacity: 0;
+        }
+    }
   }
 }
