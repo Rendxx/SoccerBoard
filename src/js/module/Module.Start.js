@@ -5,7 +5,9 @@ var React = require('react');
 var StartModule = React.createClass({
   /* Public Method *********************************************************************/
   resize:function(w, h){
-    this.refs.instruction.style.marginLeft = w/2+40+"px";
+    this.refs.instruction.style.marginLeft = w/2*0.68+40+"px";
+    this.refs.sensor.style.width = w*0.8 +'px';
+    this.refs.sensor.style.height = h*0.8 +'px';
   },
   hover:function(isHover){
     this.setState({
@@ -46,7 +48,7 @@ var StartModule = React.createClass({
     else if (this.state.hover) className+=" hover";
     return(
       <div className={className} ref="startModule" onClick={this.start} onTransitionEnd={this._transitionEnd}>
-        <div className="sensor" onMouseEnter={this.props.onHover[0]} onMouseLeave={this.props.onHover[1]} onClick={this.props.onStart}></div>
+        <div className="sensor" ref="sensor" onMouseEnter={this.props.onHover[0]} onMouseLeave={this.props.onHover[1]} onClick={this.props.onStart}></div>
         <div className="instruction" ref="instruction" dangerouslySetInnerHTML={this._buildInstruction()} />
       </div>
     );

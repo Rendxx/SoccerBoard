@@ -17,13 +17,20 @@ var SoccerBoardContainer = React.createClass({
     this.refs.soccerModule.loadTeam(dat);
   },
   resize:function(){
-    var w = this.refs.soccerBoardContainer.offsetWidth-480;
+    var w = Math.max(this.refs.soccerBoardContainer.offsetWidth-500,500);
     var h = this.refs.soccerBoardContainer.offsetHeight;
-    if (w>h/4*5) w = h/4*5;
-    else if (h>w/5*4) h = w/5*4;
-    this.refs.soccerModule.resize(w,h, w*radioField[0],h*radioField[1]);
-    this.refs.startModule.resize(w*0.6,h);
-    this.refs.teamModule.resize(w*radioStand[0]+460,h*radioStand[1], w*radioBorder[0],h*radioBorder[1]);
+    if (w>h/4*5) w = ~~(h/4*5);
+    else if (h>w/5*4) h = ~~(w/5*4);
+
+    var w_field = ~~(w*radioField[0]);
+    var h_field = ~~(h*radioField[1]);
+    var w_stand = ~~(w*radioStand[0]);
+    var h_stand = ~~(h*radioStand[1]);
+    var w_border = ~~(w*radioBorder[0]);
+    var h_border = ~~(h*radioBorder[1]);
+    this.refs.soccerModule.resize(w,h, w_field,h_field);
+    this.refs.startModule.resize(w,h);
+    this.refs.teamModule.resize(Math.min(w_stand+500, this.refs.soccerBoardContainer.offsetWidth), h_stand, w_border, h_border);
   },
 
   /* Private Method *********************************************************************/

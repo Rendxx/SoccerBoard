@@ -17,9 +17,8 @@ var TeamModule = React.createClass({
   resize:function(w, h, w_border, h_border){
     this.refs.teamModule.style.width = w+"px";
     this.refs.teamModule.style.height = h+"px";
-    var marginTop = (h- h_border)/2-60;
-    this.refs.teamLeft.setMarginTop(marginTop);
-    this.refs.teamRight.setMarginTop(marginTop);
+    this.refs.teamModule.style.marginLeft = -(~~(w/2))+"px";
+    this.refs.teamModule.style.marginTop = -(~~(h/2))+"px";
   },
 
   /* Private Method *********************************************************************/

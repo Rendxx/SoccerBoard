@@ -9,6 +9,8 @@
   transition: 0.75s;
   backface-visibility: hidden;
   transform-origin: 50% 60%;
+  -webkit-font-smoothing: subpixel-antialiased;
+  transform: translateZ(0);
 
   .instruction{
     position: absolute;
@@ -20,6 +22,7 @@
     font-size: 16px;
     margin-top:-36px;
     transition: 0.5s;
+    transition-duration: opacity, transform;
     backface-visibility: hidden;
 
     span {
@@ -34,8 +37,7 @@
     left:50%;
     width:600px;
     height:480px;
-    margin-left:-300px;
-    margin-top:-240px;
+    transform: translate(-50%,-50%);
     background-color: transparent;
     z-index:40;
   }
@@ -62,12 +64,6 @@
     .instruction{
       opacity: 0.6;
       transform: translateX(40px);
-    }
-    .sensor{
-      width:800px;
-      height:640px;
-      margin-left:-400px;
-      margin-top:-320px;
     }
       &:after{
         animation:none;

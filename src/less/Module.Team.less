@@ -2,10 +2,16 @@
   position:absolute;
   top:45%;
   left:50%;
-  z-index:30;
-  transform: translate(-50%, -50%);
-  //backface-visibility: hidden;
-  overflow: visible;;
+  z-index:40;
+  overflow: visible;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
+  pointer-events: none;
+
 
   &.hidden{
     opacity: 0;

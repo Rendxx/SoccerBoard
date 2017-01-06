@@ -4,9 +4,6 @@ var PlayerItem = require('TEAM/Team.PlayerItem.js');
 
 var TeamPad = React.createClass({
   /* Public Method *********************************************************************/
-  setMarginTop :function (t){
-    this.refs.self.style.marginTop=t+"px";
-  },
   loadPlayer:function(teamDat){
     this.setState({
       name:teamDat.name||"",
