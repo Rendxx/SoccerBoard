@@ -41,19 +41,19 @@ var TeamPad = React.createClass({
     return(
       <div className={className} ref="self">
         <div className={nameClass}><span>{this.state.name}</span> </div>
-        <div className="player-starting">{
+        <div className={"player-starting "+(textAlign==="left"?"textLeft":"textRight")} ref="starting">{
           this.state.starting.map((number) => (
-              <PlayerItem number={number} name={this.state.info[number].name} status="starting" textAlign={textAlign} />
+              <PlayerItem number={number} name={this.state.info[number].name} status="starting" />
           ))
         }</div>
-        <div className="player-bench">{
+        <div className={"player-bench "+(textAlign==="left"?"textLeft":"textRight")} ref="bench">{
           this.state.bench.map((number) => (
-              <PlayerItem number={number} name={this.state.info[number].name} status="bench" textAlign={textAlign} />
+              <PlayerItem number={number} name={this.state.info[number].name} status="bench" />
           ))
         }</div>
-        <div className="player-rest">{
+        <div className={"player-rest "+(textAlign==="left"?"textRight":"textLeft")} ref="rest">{
           this.state.rest.map((number) => (
-              <PlayerItem number={number} name={this.state.info[number].name} status="rest" textAlign={textAlign} />
+              <PlayerItem number={number} name={this.state.info[number].name} status="rest" />
           ))
         }</div>
       </div>

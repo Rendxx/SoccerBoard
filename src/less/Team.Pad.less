@@ -15,13 +15,14 @@
   .teamPad-name{
     font-size:40px;
     width:100%;
-    height:70px;
+    height:80px;
     line-height:70px;
     box-sizing:border-box;
     position:absolute;
-    top:-70px;
+    padding-top:10px;
+    top:-80px;
     transition-duration: 0.2s;
-    transition-property: transform;
+    transition-property: margin, width, background-color, color;
     backface-visibility: hidden;
 
     &.textLeft{
@@ -33,6 +34,20 @@
       right:0;
       text-align: right;
       padding-right: 40px;
+    }
+
+    &:after{
+      content:'';
+      position:absolute;
+      bottom:-5px;
+      left:0;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.2s;
+      width:100%;
+      height:5px;
+      background: linear-gradient(to bottom, rgba(0,0,0,255), rgba(0,0,0,0));
+      z-index:60;
     }
   }
 
@@ -124,7 +139,15 @@
 
   &:hover{
     .teamPad-name{
-        transform: translateY(-4px);
+        width:200%;
+        background-color: #222;
+        color:#fff;
+        transition-delay: 0.2s;
+
+        &:after{
+          opacity:0.12;
+          transition-delay: 0.2s;
+        }
     }
     .player-starting{
         color:#fff;
@@ -148,16 +171,22 @@
         transition-delay: 0.2s;
     }
     &.left{
+      .teamPad-name{
+          margin-right:-100%;
+      }
       .player-rest{
-          margin-left:1px;
+          border-left:1px solid #333;
           transform: translateX(100%);
       }
     }
 
     &.right{
+      .teamPad-name{
+          margin-left:-100%;
+      }
       .player-rest{
-          margin-right:1px;
-        transform: translateX(-100%);
+          border-right:1px solid #333;
+          transform: translateX(-100%);
       }
     }
   }
