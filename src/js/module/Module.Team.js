@@ -15,10 +15,10 @@ var TeamModule = React.createClass({
     if (dat.right)this.refs.teamRight.loadPlayer(dat.right);
   },
   resize:function(w, h, w_border, h_border){
-    this.refs.teamModule.style.width = w+"px";
-    this.refs.teamModule.style.height = h+"px";
-    this.refs.teamModule.style.marginLeft = -(~~(w/2))+"px";
-    this.refs.teamModule.style.marginTop = -(~~(h/2))+"px";
+    this.refs.inner.style.width = w+"px";
+    this.refs.inner.style.height = h_border+"px";
+    this.refs.inner.style.marginLeft = -(~~(w/2))+"px";
+    this.refs.inner.style.marginTop = -(~~(h_border/2))+"px";
   },
 
   /* Private Method *********************************************************************/
@@ -42,9 +42,11 @@ var TeamModule = React.createClass({
     if (this.state.animation)className+= " animation";
 
     return(
-      <div className={className} ref="teamModule" onTransitionEnd={this._transitionEnd}>
-        <Team ref="teamLeft" posAlign="left" />
-        <Team ref="teamRight" posAlign="right" />
+      <div className={className} ref="container" onTransitionEnd={this._transitionEnd}>
+          <div className="innerWrap" ref="inner" >
+            <Team ref="teamLeft" posAlign="left" />
+            <Team ref="teamRight" posAlign="right" />
+          </div>
       </div>
     );
   }
