@@ -14,6 +14,12 @@ var TeamPad = React.createClass({
       rest:teamDat.rest||[]
     });
   },
+  setPosition:function(margin){
+    if (margin==null) return;
+    this.refs.container.style.marginLeft = (margin.hasOwnProperty('left')&&margin.left!=null)?margin.left+"px":'auto';
+    this.refs.container.style.marginRight = (margin.hasOwnProperty('right')&&margin.right!=null)?margin.right+"px":'auto';
+    this.refs.container.style.marginTop =  (margin.hasOwnProperty('top')&&margin.top!=null)?margin.top+"px":'auto';
+  },
   select: function (){
     this.setState({
       selected: true
@@ -26,6 +32,15 @@ var TeamPad = React.createClass({
   },
 
   /* Private Method *********************************************************************/
+  _onPlayerSelect:function(number){
+      if (this.state.selectedNumber===-1){
+          this.setState({
+              selectedNumber:number
+          });
+      }else{
+
+      }
+  },
 
   /* React Method *********************************************************************/
   getInitialState: function() {
@@ -35,7 +50,8 @@ var TeamPad = React.createClass({
       info:[],
       starting:[],
       bench:[],
-      rest:[]
+      rest:[],
+      selectedNumber: -1,
     };
   },
   componentDidMount: function (){
@@ -46,7 +62,7 @@ var TeamPad = React.createClass({
   },
   render:function(){
     var className = "teamPad";
-    if (this.props.selected) className += " selected";
+    if (this.state.selected) className += " selected";
     if (this.props.posAlign==="left") className+=" left";
     else  className+=" right";
     var textAlign;
@@ -60,17 +76,17 @@ var TeamPad = React.createClass({
         <div className={nameClass}><span>{this.state.name}</span> </div>
         <div className={"player-starting "+(textAlign==="left"?"textLeft":"textRight")} ref="starting">{
           this.state.starting.map((number) => (
-              <PlayerItem number={number} name={this.state.info[number].name} status="starting" />
+              <PlayerItem number={number} name={this.state.info[number].name} status="starting" onSelected={this._onPlayerSelect} />
           ))
         }</div>
         <div className={"player-bench "+(textAlign==="left"?"textLeft":"textRight")} ref="bench">{
           this.state.bench.map((number) => (
-              <PlayerItem number={number} name={this.state.info[number].name} status="bench" />
+              <PlayerItem number={number} name={this.state.info[number].name} status="bench" onSelected={this._onPlayerSelect} />
           ))
         }</div>
         <div className={"player-rest "+(textAlign==="left"?"textRight":"textLeft")} ref="rest">{
           this.state.rest.map((number) => (
-              <PlayerItem number={number} name={this.state.info[number].name} status="rest" />
+              <PlayerItem number={number} name={this.state.info[number].name} status="rest" onSelected={this._onPlayerSelect} />
           ))
         }</div>
       </div>

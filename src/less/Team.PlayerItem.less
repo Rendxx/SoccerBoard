@@ -5,6 +5,10 @@
     line-height: 22px;
     overflow: hidden;
     box-sizing: border-box;
+    cursor: pointer;
+    background-color: rgba(255,255,255,0);
+    transition-duration: 0.2s;
+    transition-property: background-color, color;
 
     .number {
         position: absolute;
@@ -30,6 +34,15 @@
     &.rest {
         //color:#999;
     }
+
+    &:hover{
+        background-color: rgba(255,255,255,0.05);
+    }
+
+    &.selected{
+        background-color: rgba(255,255,255,0.10);
+        color:#fff;
+    }
 }
 
 .textLeft {
@@ -37,11 +50,11 @@
         text-align: left;
 
         .number {
-            left: 0;
+            left: 15px;
         }
 
         .name {
-            left: 0;
+            left: 15px;
             padding-left: 30px;
         }
     }
@@ -52,11 +65,11 @@
         text-align: right;
 
         .number {
-            right: 0;
+            right: 15px;
         }
 
         .name {
-            right: 0;
+            right: 15px;
             padding-right: 30px;
         }
     }

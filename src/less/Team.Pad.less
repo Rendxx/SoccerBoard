@@ -1,16 +1,15 @@
 .teamPad {
     overflow: visible;
     position: absolute;
-    top: 0;
     box-sizing: border-box;
     backface-visibility: hidden;
     -webkit-font-smoothing: subpixel-antialiased;
     pointer-events: auto;
-    transform: translateZ(0);
     width: 240px;
     height: auto;
     color: #333;
     //margin-top:40px;
+
     .teamPad-name {
         font-size: 40px;
         width: 100%;
@@ -54,7 +53,7 @@
     .__player-list-basic {
         transition-duration: 0.2s;
         transition-property: color, background-color;
-        padding: 15px 40px;
+        padding: 15px 25px;
         box-sizing: border-box;
     }
 
@@ -104,8 +103,7 @@
     }
 
     &.left {
-        left: 0;
-
+        left:50%;
         .player-bench:after,
         .player-starting:after {
             right: 0;
@@ -125,8 +123,7 @@
     }
 
     &.right {
-        right: 0;
-
+        right:50%;
         .player-bench:after,
         .player-starting:after {
             left: 0;
@@ -159,6 +156,29 @@
     .__hover {
         .teamPad-name {
             color: #333;
+        }
+
+        .player-starting {
+            background-color: #eee;
+
+        }
+
+        .player-bench {
+            background-color: #f2f2f2;
+        }
+    }
+
+    &:hover {
+        .__hover;
+    }
+
+    &.selected {
+        .__hover;
+
+        .teamPad-name {
+            width: 200%;
+            background-color: #222;
+            color: #fff;
 
             &:after {
                 opacity: 0.12;
@@ -180,24 +200,6 @@
 
             &:after {
                 opacity: 0;
-            }
-        }
-    }
-
-    &:hover {
-        .__hover;
-    }
-
-    &.selected {
-        .__hover;
-
-        .teamPad-name {
-            width: 200%;
-            background-color: #222;
-            color: #fff;
-
-            &:after {
-                opacity: 0.12;
             }
         }
 

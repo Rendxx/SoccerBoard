@@ -15,10 +15,14 @@ var TeamModule = React.createClass({
     if (dat.right)this.refs.teamRight.loadPlayer(dat.right);
   },
   resize:function(w, h, w_border, h_border){
-    this.refs.inner.style.width = w+"px";
-    this.refs.inner.style.height = h_border+"px";
-    this.refs.inner.style.marginLeft = -(~~(w/2))+"px";
-    this.refs.inner.style.marginTop = -(~~(h_border/2))+"px";
+    this.refs.teamLeft.setPosition({
+      left: -(~~(w/2)),
+      top: -(~~(h_border/2))
+    });
+    this.refs.teamRight.setPosition({
+      right: -(~~(w/2)),
+      top: -(~~(h_border/2))
+    });
   },
   unselect:function(){
     this.setState({
