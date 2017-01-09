@@ -1,5 +1,6 @@
 require('LESS/Team.Pad.less');
 var React = require('react');
+var Util = require('JS/Util.js');
 var PlayerItem = require('TEAM/Team.PlayerItem.js');
 
 var TeamPad = React.createClass({
@@ -13,6 +14,16 @@ var TeamPad = React.createClass({
       rest:teamDat.rest||[]
     });
   },
+  select: function (){
+    this.setState({
+      selected: true
+    });
+  },
+  unselect: function (){
+    this.setState({
+      selected: false
+    });
+  },
 
   /* Private Method *********************************************************************/
 
@@ -20,6 +31,7 @@ var TeamPad = React.createClass({
   getInitialState: function() {
     return {
       name:"",
+      selected: false,
       info:[],
       starting:[],
       bench:[],
@@ -27,9 +39,14 @@ var TeamPad = React.createClass({
     };
   },
   componentDidMount: function (){
+    this.refs.container.addEventListener('click', function(e) {
+      this.props.onSelected && this.props.onSelected();
+      this.select();
+    }.bind(this));
   },
   render:function(){
     var className = "teamPad";
+    if (this.props.selected) className += " selected";
     if (this.props.posAlign==="left") className+=" left";
     else  className+=" right";
     var textAlign;
@@ -39,7 +56,7 @@ var TeamPad = React.createClass({
     var nameClass="teamPad-name "+(textAlign==="left"?"textLeft":"textRight");
 
     return(
-      <div className={className} ref="self">
+      <div className={className} ref="container">
         <div className={nameClass}><span>{this.state.name}</span> </div>
         <div className={"player-starting "+(textAlign==="left"?"textLeft":"textRight")} ref="starting">{
           this.state.starting.map((number) => (

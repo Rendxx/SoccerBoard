@@ -28,4 +28,14 @@ Util.getMousePos = function (e, parent) {
     return pos;
 };
 
+Util.addClass = function (ele, className) {
+    Util.removeClass(ele, className);
+    ele.className += ' '+className;
+};
+
+Util.removeClass = function (ele, className) {
+    ele.className = ele.className
+    .replace(new RegExp('(?:^|\\s)'+ className + '(?:\\s|$)'), ' ').trim();
+};
+
 module.exports = Util;

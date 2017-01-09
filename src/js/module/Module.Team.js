@@ -20,6 +20,13 @@ var TeamModule = React.createClass({
     this.refs.inner.style.marginLeft = -(~~(w/2))+"px";
     this.refs.inner.style.marginTop = -(~~(h_border/2))+"px";
   },
+  unselect:function(){
+    this.setState({
+      teamSelected: false
+    });
+    this.refs.teamLeft.unselect();
+    this.refs.teamRight.unselect();
+  },
 
   /* Private Method *********************************************************************/
   _transitionEnd: function(){
@@ -28,13 +35,24 @@ var TeamModule = React.createClass({
       animation:false
     });
   },
+  _teamPadSelected: function(){
+    this.setState({
+      teamSelected: true
+    });
+  },
 
   /* React Method *********************************************************************/
   getInitialState: function() {
     return {
       hidden: true,
-      animation:true
+      animation:true,
+      teamSelected: false,
     };
+  },
+  componentDidMount: function (){
+    this.refs.bg.addEventListener('click', function(e) {
+      this.unselect();
+    }.bind(this));
   },
   render:function(){
     var className='teamModule';
@@ -43,10 +61,9 @@ var TeamModule = React.createClass({
 
     return(
       <div className={className} ref="container" onTransitionEnd={this._transitionEnd}>
-          <div className="innerWrap" ref="inner" >
-            <Team ref="teamLeft" posAlign="left" />
-            <Team ref="teamRight" posAlign="right" />
-          </div>
+          <Team ref="teamLeft" posAlign="left" onSelected={this._teamPadSelected}/>
+          <Team ref="teamRight" posAlign="right" onSelected={this._teamPadSelected} />
+          <div className={"teamBgCover"+(this.state.teamSelected?" shown":"")} ref="bg" ></div>
       </div>
     );
   }

@@ -1,193 +1,233 @@
-.teamPad{
-  overflow: visible;
-  position:absolute;
-  top:0;
-  box-sizing:border-box;
-  backface-visibility: hidden;
-  -webkit-font-smoothing: subpixel-antialiased;
-  pointer-events: auto;
-  transform: translateZ(0);
-  width:240px;
-  height: auto;
-  color:#333;
-  //margin-top:40px;
-
-  .teamPad-name{
-    font-size:40px;
-    width:100%;
-    height:80px;
-    line-height:70px;
-    box-sizing:border-box;
-    position:absolute;
-    padding-top:10px;
-    top:-80px;
-    transition-duration: 0.2s;
-    transition-property: margin, width, background-color, color;
-    backface-visibility: hidden;
-
-    &.textLeft{
-      left:0;
-      text-align: left;
-      padding-left: 40px;
-    }
-    &.textRight{
-      right:0;
-      text-align: right;
-      padding-right: 40px;
-    }
-
-    &:after{
-      content:'';
-      position:absolute;
-      bottom:-5px;
-      left:0;
-      display: block;
-      opacity: 0;
-      transition: opacity 0.2s;
-      width:100%;
-      height:5px;
-      background: linear-gradient(to bottom, rgba(0,0,0,255), rgba(0,0,0,0));
-      z-index:60;
-    }
-  }
-
-  .player-starting, .player-bench, .player-rest{
-      transition-duration: 0.2s;
-      transition-property: color, background-color;
-      padding:15px 40px;
-      box-sizing: border-box;
-  }
-
-  .player-starting, .player-bench{
+.teamPad {
     overflow: visible;
-    position:relative;
-    width:100%;
-    &:after{
-      .line;
-    }
-    &:before{
-      .line;
-      display: none;
-    }
-  }
+    position: absolute;
+    top: 0;
+    box-sizing: border-box;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: subpixel-antialiased;
+    pointer-events: auto;
+    transform: translateZ(0);
+    width: 240px;
+    height: auto;
+    color: #333;
+    //margin-top:40px;
+    .teamPad-name {
+        font-size: 40px;
+        width: 100%;
+        height: 80px;
+        line-height: 70px;
+        box-sizing: border-box;
+        position: absolute;
+        padding-top: 10px;
+        top: -80px;
+        transition-duration: 0.2s;
+        transition-property: margin, width, background-color, color;
+        backface-visibility: hidden;
 
-  .player-starting{
-    z-index:20;
-    color:#333;
-  }
-  .player-bench{
-    z-index:20;
-    color:#666;
-    margin-top:-1px;
-  }
-  .player-rest{
-    z-index:10;
-    visibility:hidden;
-    opacity: 0;
-    color:#999;
-    width:100%;
-    height:100%;
-    position:absolute;
-    top:0;
-    transition-duration: 0.2s;
-    transition-delay: 0s;
-    transition-property: transform, background, visibility, opacity;
-  }
+        &.textLeft {
+            left: 0;
+            text-align: left;
+            padding-left: 40px;
+        }
 
-  &.left{
-    left:0;
-    .player-starting:after, .player-bench:after{
-      right:0;
-      background: linear-gradient(to left, rgba(220,220,220,0), rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,160), rgba(220,220,220,0));
-    }
-    .player-starting:before, .player-bench:before{
-      right:-200px;
-      width:200px;
-      background: linear-gradient(to right, rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,0));
-    }
-    .player-rest{
-      left:0;
-    }
-  }
+        &.textRight {
+            right: 0;
+            text-align: right;
+            padding-right: 40px;
+        }
 
-  &.right{
-    right:0;
-    .player-starting:after, .player-bench:after{
-      left:0;
-      background: linear-gradient(to right, rgba(220,220,220,0), rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,160), rgba(220,220,220,0));
-    }
-    .player-starting:before, .player-bench:before{
-      left:-200px;
-      width:200px;
-      background: linear-gradient(to left, rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,0));
-    }
-    .player-rest{
-      right:0;
-    }
-  }
-
-  .line{
-    content:'';
-    width:100%;
-    height:1px;
-    position:absolute;
-    top:0;
-    background-color: rgba(220,220,220,255);
-    transition-duration: 0.2s;
-    transition-property: opacity;
-  }
-
-  &:hover{
-    .teamPad-name{
-        width:200%;
-        background-color: #222;
-        color:#fff;
-        transition-delay: 0.2s;
-
-        &:after{
-          opacity:0.12;
-          transition-delay: 0.2s;
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            display: block;
+            opacity: 0;
+            transition: opacity 0.2s;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to bottom, rgba(0,0,0,255), rgba(0,0,0,0));
+            z-index: 60;
         }
     }
-    .player-starting{
-        color:#fff;
-        background-color: #333;
-        &:after{
-          opacity: 0;
-        }
-    }
-    .player-bench{
-        color:#ccc;
-        background-color: #393939;
-        &:after{
-          opacity: 0;
-        }
-    }
-    .player-rest{
-        opacity:1;
-        color:#ccc;
-        background-color: #393939;
-        visibility: visible;
-        transition-delay: 0.2s;
-    }
-    &.left{
-      .teamPad-name{
-          margin-right:-100%;
-      }
-      .player-rest{
-          border-left:1px solid #333;
-          transform: translateX(100%);
-      }
+
+    .__player-list-basic {
+        transition-duration: 0.2s;
+        transition-property: color, background-color;
+        padding: 15px 40px;
+        box-sizing: border-box;
     }
 
-    &.right{
-      .teamPad-name{
-          margin-left:-100%;
-      }
-      .player-rest{
-          border-right:1px solid #333;
-          transform: translateX(-100%);
-      }
+    .__player-list-main {
+        overflow: visible;
+        position: relative;
+        width: 100%;
+
+        &:after {
+            .line;
+        }
+
+        &:before {
+            .line;
+            display: none;
+        }
     }
-  }
+
+    .player-starting {
+        .__player-list-basic;
+        .__player-list-main;
+        z-index: 20;
+        color: #333;
+    }
+
+    .player-bench {
+        .__player-list-basic;
+        .__player-list-main;
+        z-index: 20;
+        color: #666;
+        margin-top: -1px;
+    }
+
+    .player-rest {
+        .__player-list-basic;
+        z-index: 10;
+        visibility: hidden;
+        opacity: 0;
+        color: #999;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        transition-duration: 0.2s;
+        transition-delay: 0s;
+        transition-property: transform, background, visibility, opacity;
+    }
+
+    &.left {
+        left: 0;
+
+        .player-bench:after,
+        .player-starting:after {
+            right: 0;
+            background: linear-gradient(to left, rgba(220,220,220,0), rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,160), rgba(220,220,220,0));
+        }
+
+        .player-bench:before,
+        .player-starting:before {
+            right: -200px;
+            width: 200px;
+            background: linear-gradient(to right, rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,0));
+        }
+
+        .player-rest {
+            left: 0;
+        }
+    }
+
+    &.right {
+        right: 0;
+
+        .player-bench:after,
+        .player-starting:after {
+            left: 0;
+            background: linear-gradient(to right, rgba(220,220,220,0), rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,160), rgba(220,220,220,0));
+        }
+
+        .player-bench:before,
+        .player-starting:before {
+            left: -200px;
+            width: 200px;
+            background: linear-gradient(to left, rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,255), rgba(220,220,220,0));
+        }
+
+        .player-rest {
+            right: 0;
+        }
+    }
+
+    .line {
+        content: '';
+        width: 100%;
+        height: 1px;
+        position: absolute;
+        top: 0;
+        background-color: rgba(220,220,220,255);
+        transition-duration: 0.2s;
+        transition-property: opacity;
+    }
+
+    .__hover {
+        .teamPad-name {
+            color: #333;
+
+            &:after {
+                opacity: 0.12;
+            }
+        }
+
+        .player-starting {
+            color: #fff;
+            background-color: #333;
+
+            &:after {
+                opacity: 0;
+            }
+        }
+
+        .player-bench {
+            color: #ccc;
+            background-color: #393939;
+
+            &:after {
+                opacity: 0;
+            }
+        }
+    }
+
+    &:hover {
+        .__hover;
+    }
+
+    &.selected {
+        .__hover;
+
+        .teamPad-name {
+            width: 200%;
+            background-color: #222;
+            color: #fff;
+
+            &:after {
+                opacity: 0.12;
+            }
+        }
+
+        .player-rest {
+            opacity: 1;
+            color: #ccc;
+            background-color: #393939;
+            visibility: visible;
+        }
+
+        &.left {
+            .teamPad-name {
+                margin-right: -100%;
+            }
+
+            .player-rest {
+                border-left: 1px solid #333;
+                transform: translateX(100%);
+            }
+        }
+
+        &.right {
+            .teamPad-name {
+                margin-left: -100%;
+            }
+
+            .player-rest {
+                border-right: 1px solid #333;
+                transform: translateX(-100%);
+            }
+        }
+    }
 }

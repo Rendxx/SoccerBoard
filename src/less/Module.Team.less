@@ -20,6 +20,36 @@
     left:50%;
   }
 
+  .teamPad {
+    z-index:1;
+
+    &.selected {
+      z-index:30;
+    }
+  }
+
+  .teamBgCover {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:10;
+    background: rgba(255, 255, 255, 0.2);
+    visibility: hidden;
+    opacity: 0;
+    transition-duration: 0.2s;
+    transition-property: opacity, visibility;
+    pointer-events: none;
+
+    &.shown{
+      opacity: 0.2s;
+      visibility: visible;
+      z-index:20;
+      pointer-events: auto;
+    }
+  }
+
   &.hidden{
     opacity: 0;
   }
