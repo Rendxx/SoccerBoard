@@ -38,9 +38,6 @@ var PlayerItem = React.createClass({
   render:function(){
     var className = "playerItem ";
     if (this.state.selected) className += " selected";
-    if (this.props.status=="starting") className+=" starting";
-    else if (this.props.status=="bench") className+=" bench";
-    else if (this.props.status=="rest") className+=" rest";
 
     return(
       <div className={className} ref="container">

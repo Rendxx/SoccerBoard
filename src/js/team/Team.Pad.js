@@ -3,6 +3,12 @@ var React = require('react');
 var Util = require('JS/Util.js');
 var PlayerItem = require('TEAM/Team.PlayerItem.js');
 
+var STATUS={
+    STARTING: 0,
+    BENCH: 1,
+    REST: 2
+};
+
 var TeamPad = React.createClass({
   /* Public Method *********************************************************************/
   loadPlayer:function(teamDat){
@@ -32,14 +38,18 @@ var TeamPad = React.createClass({
   },
 
   /* Private Method *********************************************************************/
-  _onPlayerSelect:function(number){
-      if (this.state.selectedNumber===-1){
+  _onPlayerSelect:function(idx){
+      if (this.state.selectedIdx===-1){
           this.setState({
-              selectedNumber:number
+              selectedIdx:idx
           });
       }else{
 
       }
+  },
+
+  _itemIdx:function(status,idx){
+      return 'item_'+status+'_'+idx;
   },
 
   /* React Method *********************************************************************/
@@ -51,7 +61,7 @@ var TeamPad = React.createClass({
       starting:[],
       bench:[],
       rest:[],
-      selectedNumber: -1,
+      selectedIdx: -1,
     };
   },
   componentDidMount: function (){
@@ -73,20 +83,21 @@ var TeamPad = React.createClass({
 
     return(
       <div className={className} ref="container">
+        <div className="teamPad-cover"></div>
         <div className={nameClass}><span>{this.state.name}</span> </div>
         <div className={"player-starting "+(textAlign==="left"?"textLeft":"textRight")} ref="starting">{
-          this.state.starting.map((number) => (
-              <PlayerItem number={number} name={this.state.info[number].name} status="starting" onSelected={this._onPlayerSelect} />
+          this.state.starting.map((number, idx) => (
+              <PlayerItem idx={_itemIdx(STATUS.STARTING,idx)} number={number} name={this.state.info[number].name} ref={_itemIdx(STATUS.STARTING,idx)} onSelected={this._onPlayerSelect} />
           ))
         }</div>
         <div className={"player-bench "+(textAlign==="left"?"textLeft":"textRight")} ref="bench">{
-          this.state.bench.map((number) => (
-              <PlayerItem number={number} name={this.state.info[number].name} status="bench" onSelected={this._onPlayerSelect} />
+          this.state.bench.map((number, idx) => (
+              <PlayerItem idx={_itemIdx(STATUS.BENCH,idx)} number={number} name={this.state.info[number].name} ref={_itemIdx(STATUS.BENCH,idx)} onSelected={this._onPlayerSelect} />
           ))
         }</div>
         <div className={"player-rest "+(textAlign==="left"?"textRight":"textLeft")} ref="rest">{
-          this.state.rest.map((number) => (
-              <PlayerItem number={number} name={this.state.info[number].name} status="rest" onSelected={this._onPlayerSelect} />
+          this.state.rest.map((number, idx) => (
+              <PlayerItem idx={_itemIdx(STATUS.REST,idx)} number={number} name={this.state.info[number].name} ref={_itemIdx(STATUS.REST,idx)} onSelected={this._onPlayerSelect} />
           ))
         }</div>
       </div>

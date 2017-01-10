@@ -5,10 +5,12 @@
     line-height: 22px;
     overflow: hidden;
     box-sizing: border-box;
-    cursor: pointer;
+    cursor: default;
     background-color: rgba(255,255,255,0);
     transition-duration: 0.2s;
-    transition-property: background-color, color;
+    transition-property: background-color;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: subpixel-antialiased;
 
     .number {
         position: absolute;
@@ -21,18 +23,6 @@
         top: 0;
         overflow: hidden;
         width: 100%;
-    }
-
-    &.starting {
-        //color:#333;
-    }
-
-    &.bench {
-        //color:#999;
-    }
-
-    &.rest {
-        //color:#999;
     }
 
     &:hover{
