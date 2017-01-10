@@ -31,8 +31,8 @@ var PlayerItem = React.createClass({
   },
   componentDidMount: function (){
     this.refs.container.addEventListener('click', function(e) {
-      this.props.onSelected && this.props.onSelected(this.state.number);
       this.select();
+      this.props.onSelected && this.props.onSelected(this.props.idx);
     }.bind(this));
   },
   render:function(){

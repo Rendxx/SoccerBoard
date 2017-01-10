@@ -1,6 +1,7 @@
 require('LESS/Module.Team.less');
 var React = require('react');
-var Team = require('TEAM/Team.Pad.js');
+var TeamPad = require('TEAM/Team.Pad.js');
+var SIDE = require('TEAM/Team.SIDE.js');
 
 var TeamModule = React.createClass({
   /* Public Method *********************************************************************/
@@ -11,8 +12,8 @@ var TeamModule = React.createClass({
   },
   loadTeam: function (dat){
     if (!dat) return;
-    if (dat.left)this.refs.teamLeft.loadPlayer(dat.left);
-    if (dat.right)this.refs.teamRight.loadPlayer(dat.right);
+    if (dat[SIDE.LEFT])this.refs.teamLeft.loadPlayer(dat[SIDE.LEFT]);
+    if (dat[SIDE.RIGHT])this.refs.teamRight.loadPlayer(dat[SIDE.RIGHT]);
   },
   resize:function(w, h, w_border, h_border){
     this.refs.teamLeft.setPosition({
@@ -44,6 +45,12 @@ var TeamModule = React.createClass({
       teamSelected: true
     });
   },
+  _teamChanged:function(){
+      var playerList = {};
+      playerList[SIDE.LEFT] = this.refs.teamLeft.getPlayerList();
+      playerList[SIDE.RIGHT] = this.refs.teamRight.getPlayerList();
+      this.props.onChange && this.props.onChange(playerList);
+  },
 
   /* React Method *********************************************************************/
   getInitialState: function() {
@@ -65,8 +72,8 @@ var TeamModule = React.createClass({
 
     return(
       <div className={className} ref="container" onTransitionEnd={this._transitionEnd}>
-          <Team ref="teamLeft" posAlign="left" onSelected={this._teamPadSelected}/>
-          <Team ref="teamRight" posAlign="right" onSelected={this._teamPadSelected} />
+          <TeamPad ref="teamLeft" side={SIDE.LEFT} onSelected={this._teamPadSelected} onChanged={this._teamChanged} />
+          <TeamPad ref="teamRight" side={SIDE.RIGHT} onSelected={this._teamPadSelected} onChanged={this._teamChanged} />
           <div className={"teamBgCover"+(this.state.teamSelected?" shown":"")} ref="bg" ></div>
       </div>
     );

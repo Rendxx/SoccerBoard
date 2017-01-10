@@ -50,6 +50,9 @@ var SoccerBoardContainer = React.createClass({
       started: true
     });
   },
+  _teamChanged: function (playerList){
+      this.refs.soccerModule.updatePlayerList(playerList);
+  },
 
   /* React Method *********************************************************************/
   getInitialState: function() {
@@ -60,10 +63,7 @@ var SoccerBoardContainer = React.createClass({
   componentDidMount: function (){
     window.addEventListener("resize", this.resize);
     this.resize();
-    this.loadTeam({
-      left:this.props.team.left,
-      right:this.props.team.right
-    });
+    this.loadTeam(this.props.team);
   },
   componentWillUnmount: function() {
     window.removeEventListener("resize", this.resize);
@@ -74,7 +74,7 @@ var SoccerBoardContainer = React.createClass({
     return(
       <div className={className} ref="soccerBoardContainer" onselectstart="return false;">
         <StartModule ref="startModule" onHover={[this._onMouseEnter, this._onMouseLeave]} onStart={this._start}/>
-        <TeamModule ref="teamModule"/>
+        <TeamModule ref="teamModule" onChange={this._teamChanged}/>
         <SoccerModule ref="soccerModule" fieldStyle={fieldStyle}/>
       </div>
     );

@@ -26,6 +26,11 @@ var PlayerMarker = React.createClass({
       selected: false
     });
   },
+  setData: function(number){
+      this.setState({
+        number:number
+      });
+  },
 
   /* Private Method *********************************************************************/
   _getStyle: function (){
@@ -64,6 +69,7 @@ var PlayerMarker = React.createClass({
       ]
     });
     this.props.onMouseDown&&this.props.onMouseDown();
+    return false;
   },
   _mouseMove: function (e){
     if (!this.state.dragging) return false;
@@ -83,12 +89,14 @@ var PlayerMarker = React.createClass({
       x:Math.max(Math.min(pos[1],100),0),
       y:Math.max(Math.min(pos[0],100),0)
     });
+    return false;
   },
   _mouseUp: function (e){
     this.setState({
       dragging:false,
       moveOffset:[0,0]
     });
+    return false;
   },
 
   /* React Method *********************************************************************/

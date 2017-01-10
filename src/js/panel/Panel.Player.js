@@ -1,6 +1,8 @@
 require('LESS/Panel.Player.less');
 var React = require('react');
 var PlayerMarker = require('COMPONENT/Component.PlayerMarker.js');
+var STATUS=require('TEAM/Team.STATUS.js');
+var SIDE = require('TEAM/Team.SIDE.js');
 
 var PanelPlayer = React.createClass({
   /* Public Method *********************************************************************/
@@ -10,13 +12,13 @@ var PanelPlayer = React.createClass({
     });
   },
   resize:function(w, h){
-    this.refs.self.style.width = w+"px";
-    this.refs.self.style.height = h+"px";
-    this.refs.self.style.marginTop = -(h>>1)+"px";
-    this.refs.self.style.marginLeft = -(w>>1)+"px";
+    this.refs.container.style.width = w+"px";
+    this.refs.container.style.height = h+"px";
+    this.refs.container.style.marginTop = -(h>>1)+"px";
+    this.refs.container.style.marginLeft = -(w>>1)+"px";
 
-    if (this.state.teamLeft!=null) for (var i=0;i<this.state.teamLeft.starting.length;i++) this.refs["l"+i].setBoardDimension(w,h);
-    if (this.state.teamRight!=null) for (var i=0;i<this.state.teamRight.starting.length;i++) this.refs["r"+i].setBoardDimension(w,h);
+    if (this.state.team[SIDE.LEFT]!=null) for (var i=0;i<this.state.team[SIDE.LEFT].playerList[STATUS.STARTING].length;i++) this.refs["l"+i].setBoardDimension(w,h);
+    if (this.state.team[SIDE.RIGHT]!=null) for (var i=0;i<this.state.team[SIDE.RIGHT].playerList[STATUS.STARTING].length;i++) this.refs["r"+i].setBoardDimension(w,h);
     this.setState({
       boardWidth:w,
       boardHeight:h
@@ -24,70 +26,96 @@ var PanelPlayer = React.createClass({
   },
   loadTeam: function (dat){
     if (!dat) return;
-    var s = {};
-    if (dat.left) s.teamLeft=dat.left;
-    if (dat.right) s.teamRight=dat.right;
+    var team = {};
+    if (dat[SIDE.LEFT]) team[SIDE.LEFT]=(dat[SIDE.LEFT]);
+    if (dat[SIDE.RIGHT]) team[SIDE.RIGHT]=(dat[SIDE.RIGHT]);
 
-    this.setState(s);
+    this.setState({
+      team:team
+    });
   },
+  updatePlayerList:function(playerList){
+      if (playerList[SIDE.LEFT]){
+          this.state.team[SIDE.LEFT].playerList = playerList[SIDE.LEFT];
+          this.state.team[SIDE.LEFT].playerList[STATUS.STARTING].map((playerNumber, arrIdx) => (
+              this.refs["l"+ arrIdx].setData(playerNumber)
+          ))
+      }
+      if (playerList[SIDE.RIGHT]){
+          this.state.team[SIDE.RIGHT].playerList = playerList[SIDE.RIGHT];
+          this.state.team[SIDE.RIGHT].playerList[STATUS.STARTING].map((playerNumber, arrIdx) => (
+              this.refs["r"+ arrIdx].setData(playerNumber)
+          ))
+      }
+  },
+
 
   /* Private Method *********************************************************************/
   _buildOnSelectedCallback: function(refId){
     var cb = function (){
       if (this.state.selectedRefId!==null) this.refs[this.state.selectedRefId].unselect();
       this.setState({selectedRefId:refId});
-      this.refs[refId].select();
+      if (refId!==null)this.refs[refId].select();
     };
     return cb.bind(this);
   },
 
   /* React Method *********************************************************************/
   getInitialState: function() {
+    var team = {};
+    team[SIDE.LEFT]=null;
+    team[SIDE.RIGHT]=null;
     return {
       hidden: true,
-      teamLeft:null,
-      teamRight:null,
+      team: team,
       boardWidth:100,
       boardHeight:100,
       selectedRefId:null
     };
+  },
+  componentDidMount: function (){
+    var func = this._buildOnSelectedCallback(null);
+    this.refs.bg.addEventListener('click', function(e) {
+      func();
+    }.bind(this));
   },
   render:function(){
     var className='panel-player';
     if (this.state.hidden)className+= " hidden";
 
     return(
-      <div className={className} ref="self" onselectstart="return false;">
-      {
-        this.state.teamLeft && this.state.teamLeft.starting.map((playerNumber, arrIdx) => (
-            <PlayerMarker ref={"l"+ arrIdx}
-              number={playerNumber}
-              color={this.state.teamLeft.color}
-              x={this.state.teamLeft.position[arrIdx][0]}
-              y={this.state.teamLeft.position[arrIdx][1]}
-              side="left"
-              boardWidth={this.state.boardWidth}
-              boardHeight={this.state.boardHeight}
-              onMouseDown={(this._buildOnSelectedCallback("l"+ arrIdx))}
-              container={this.refs.self}
-            />
-        ))
-      }
-      {
-        this.state.teamRight && this.state.teamRight.starting.map((playerNumber, arrIdx) => (
-            <PlayerMarker ref={"r"+ arrIdx}
-              number={playerNumber}
-              color={this.state.teamRight.color}
-              x={this.state.teamRight.position[arrIdx][0]}
-              y={this.state.teamRight.position[arrIdx][1]}
-              side="right"
-              boardWidth={this.state.boardWidth}
-              boardHeight={this.state.boardHeight}
-              onMouseDown={(this._buildOnSelectedCallback("r"+ arrIdx))}
-              container={this.refs.self}
-            />
-        ))
-      }
+      <div className={className} ref="container" onselectstart="return false;">
+        {
+          this.state.team[SIDE.LEFT] && this.state.team[SIDE.LEFT].playerList[STATUS.STARTING].map((playerNumber, arrIdx) => (
+              <PlayerMarker ref={"l"+ arrIdx}
+                number={playerNumber}
+                color={this.state.team[SIDE.LEFT].color}
+                x={this.state.team[SIDE.LEFT].position[arrIdx][0]}
+                y={this.state.team[SIDE.LEFT].position[arrIdx][1]}
+                side="left"
+                boardWidth={this.state.boardWidth}
+                boardHeight={this.state.boardHeight}
+                onMouseDown={(this._buildOnSelectedCallback("l"+ arrIdx))}
+                container={this.refs.container}
+              />
+          ))
+        }
+        {
+          this.state.team[SIDE.RIGHT] && this.state.team[SIDE.RIGHT].playerList[STATUS.STARTING].map((playerNumber, arrIdx) => (
+              <PlayerMarker ref={"r"+ arrIdx}
+                number={playerNumber}
+                color={this.state.team[SIDE.RIGHT].color}
+                x={this.state.team[SIDE.RIGHT].position[arrIdx][0]}
+                y={this.state.team[SIDE.RIGHT].position[arrIdx][1]}
+                side="right"
+                boardWidth={this.state.boardWidth}
+                boardHeight={this.state.boardHeight}
+                onMouseDown={(this._buildOnSelectedCallback("r"+ arrIdx))}
+                container={this.refs.container}
+              />
+          ))
+        }
+        <div className="panel-player-bg" ref="bg"></div>
       </div>
     );
   }

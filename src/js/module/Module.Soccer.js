@@ -28,6 +28,9 @@ var SoccerModule = React.createClass({
     });
     this.refs.panelPlayer.show();
   },
+  updatePlayerList:function(playerList){
+      this.refs.panelPlayer.updatePlayerList(playerList);
+  },
 
   /* Private Method *********************************************************************/
   _transitionEnd: function(){
