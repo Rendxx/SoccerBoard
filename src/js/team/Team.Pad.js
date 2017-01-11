@@ -132,6 +132,7 @@ var TeamPad = React.createClass({
               <PlayerItem idx={[STATUS.REST,idx]} number={number} name={this.state.info[number].name} ref={this._itemIdx(STATUS.REST,idx)} onSelected={this._onPlayerSelect} />
           ))
         }</div>
+        <div className="teamPad-change"></div>
       </div>
     );
   }
