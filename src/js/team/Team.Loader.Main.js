@@ -15,28 +15,6 @@ var LoaderMain = React.createClass({
   },
 
   /* Private Method *********************************************************************/
-  _renderBg:function(){
-    var w = this.refs.container.offsetWidth;
-    var h = this.refs.container.offsetHeight;
-
-    this.refs.canvas.width = w;
-    this.refs.canvas.height = h;
-		var ctx = this.refs.canvas.getContext('2d');
-    ctx.clearRect(0, 0, w, h);
-
-    //ctx.fillStyle = "#eeeeee";
-    ctx.beginPath();
-
-    ctx.translate(-120, -120);
-    ctx.rotate(Math.PI/12);
-
-    ctx.fillStyle = ctx.createPattern(img_grassBg, 'repeat');
-    ctx.fillRect(0, 0, w*4, h*4);
-
-    ctx.rotate(-Math.PI/12);
-    ctx.translate(30, 30);
-    ctx.closePath();
-  },
 
   /* React Method *********************************************************************/
   getInitialState: function() {
@@ -52,10 +30,12 @@ var LoaderMain = React.createClass({
     if (this.state.hide) className+=" hidden";
     return(
       <div className={className} ref="container">
-        <div className="title">Load Team</div>
-        <div className="team-option team-option-real"></div>
-        <div className="team-option team-option-default"></div>
-        <div className="team-option team-option-no"></div>
+        <div className="teamLoader-wrap">
+          <div className="teamLoader-title">Load Team</div>
+          <div className="teamLoader-option teamLoader-option-real"></div>
+          <div className="teamLoader-option teamLoader-option-default"></div>
+          <div className="teamLoader-option teamLoader-option-no"></div>
+        </div>
       </div>
     );
   }
