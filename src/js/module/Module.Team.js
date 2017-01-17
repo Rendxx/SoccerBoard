@@ -1,6 +1,7 @@
 require('LESS/Module.Team.less');
 var React = require('react');
 var TeamPad = require('TEAM/Team.Pad.js');
+var TeamLoaderMain = require('TEAM/Team.Loader.Main.js');
 var SIDE = require('TEAM/Team.SIDE.js');
 
 var TeamModule = React.createClass({
@@ -45,11 +46,15 @@ var TeamModule = React.createClass({
       teamSelected: true
     });
   },
-  _teamChanged:function(){
+  _playerListUpdate:function(){
       var playerList = {};
       playerList[SIDE.LEFT] = this.refs.teamLeft.getPlayerList();
       playerList[SIDE.RIGHT] = this.refs.teamRight.getPlayerList();
       this.props.onChange && this.props.onChange(playerList);
+  },
+  _changeTeam:function(side){
+    this.refs.teamLoaderMain.show();
+    this.unselect();
   },
 
   /* React Method *********************************************************************/
@@ -72,9 +77,10 @@ var TeamModule = React.createClass({
 
     return(
       <div className={className} ref="container" onTransitionEnd={this._transitionEnd}>
-          <TeamPad ref="teamLeft" side={SIDE.LEFT} onSelected={this._teamPadSelected} onChanged={this._teamChanged} />
-          <TeamPad ref="teamRight" side={SIDE.RIGHT} onSelected={this._teamPadSelected} onChanged={this._teamChanged} />
+          <TeamPad ref="teamLeft" side={SIDE.LEFT} onSelected={this._teamPadSelected} onChanged={this._playerListUpdate} changeTeam={this._changeTeam}/>
+          <TeamPad ref="teamRight" side={SIDE.RIGHT} onSelected={this._teamPadSelected} onChanged={this._playerListUpdate} changeTeam={this._changeTeam} />
           <div className={"teamBgCover"+(this.state.teamSelected?" shown":"")} ref="bg" ></div>
+          <TeamLoaderMain ref="teamLoaderMain" />
       </div>
     );
   }

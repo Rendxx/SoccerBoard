@@ -104,6 +104,10 @@ var TeamPad = React.createClass({
       this.props.onSelected && this.props.onSelected();
       this.select();
     }.bind(this));
+    var that = this;
+    this.refs.changeBtn.addEventListener('click', function(e) {
+      setTimeout(function(){that.props.changeTeam && that.props.changeTeam(that.props.side);},1);
+    }.bind(this));
   },
   render:function(){
     var className = "teamPad";
@@ -132,7 +136,7 @@ var TeamPad = React.createClass({
               <PlayerItem idx={[STATUS.REST,idx]} number={number} name={this.state.info[number].name} ref={this._itemIdx(STATUS.REST,idx)} onSelected={this._onPlayerSelect} />
           ))
         }</div>
-        <div className="teamPad-change"></div>
+        <div className="teamPad-change" ref="changeBtn"></div>
       </div>
     );
   }

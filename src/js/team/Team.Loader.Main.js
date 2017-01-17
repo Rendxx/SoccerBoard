@@ -1,4 +1,4 @@
-require('LESS/Component.BoardTag.less');
+require('LESS/Team.Loader.Main.less');
 var React = require('react');
 
 var LoaderMain = React.createClass({
@@ -19,11 +19,13 @@ var LoaderMain = React.createClass({
   /* React Method *********************************************************************/
   getInitialState: function() {
     return {
-      hide: false
+      hide: true
     };
   },
   componentDidMount:function(){
-    this._renderBg();
+    this.refs.container.addEventListener('click', function(e) {
+      this.hide();
+    }.bind(this));
   },
   render:function(){
     var className = "teamLoader-main";
@@ -31,7 +33,6 @@ var LoaderMain = React.createClass({
     return(
       <div className={className} ref="container">
         <div className="teamLoader-wrap">
-          <div className="teamLoader-title">Load Team</div>
           <div className="teamLoader-option teamLoader-option-real"></div>
           <div className="teamLoader-option teamLoader-option-default"></div>
           <div className="teamLoader-option teamLoader-option-no"></div>
