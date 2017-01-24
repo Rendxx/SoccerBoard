@@ -2,7 +2,9 @@
 
 const jsonfile = require('jsonfile'),
       cheerio = require("cheerio"),
-      req = require("tinyreq");
+      req = require("tinyreq"),
+      windows1252 = require('windows-1252'),
+      utf8 = require('utf8');
 
 // data ----------------------------------------------------------------
 var DATA_League = [
@@ -31,42 +33,59 @@ var DATA_League = [
 var DATA_Squad_pre = 'http://www.footballsquads.co.uk/eng/2016-2017/';
 
 // function ------------------------------------------------------------
+function encodeHtml (body){
+  let body_encode ='';
+  try{
+    body_encode=windows1252.encode(body)
+  }catch(e){
+    body_encode=utf8.encode(body);
+  }
+  return body_encode;
+};
+
 function parseLeagueInfo (idx, url, cb){
-    req(url, (err, body) => {
-        if (err) { return cb(err); }
-        let $ = cheerio.load(body);
-        let pageData = [];
+    req({
+          url:url,
+          encoding: 'binary'
+        },
+        (err, body) => {
+          if (err) { return cb(err); }
+          let $ = cheerio.load(encodeHtml(body));
+          let pageData = [];
 
-        var dat = $('#main').find('h5 a');
-        console.log(dat.length);
-        for (var i=0; i<dat.length; i++){
-            var d = $(dat[i]);
-            pageData[i] = {
-              name: d.text(),
-              url: d.attr('href')
-            };
-        }
-
-        cb(idx, pageData);
+          var dat = $('#main').find('h5 a');
+          console.log(dat.length);
+          for (var i=0; i<dat.length; i++){
+              var d = $(dat[i]);
+              pageData[i] = {
+                name: (d.text()),
+                url: d.attr('href')
+              };
+          }
+          cb(idx, pageData);
     });
 };
 
 function parseSquadInfo (idx, idx2, url, cb){
-    req(DATA_Squad_pre+url, (err, body) => {
-        if (err) { return cb(err); }
-        let $ = cheerio.load(body);
-        let pageData = [];
+    req({
+          url:DATA_Squad_pre+url,
+          encoding: 'binary'
+        },
+        (err, body) => {
+            if (err) { return cb(err); }
+            let $ = cheerio.load(encodeHtml(body));
+            let pageData = [];
 
-        var dat = $('#main table').find('tr');
-        for (var i=0; i<dat.length; i++){
-            var d = parsePlayerInfo($, $(dat[i]));
-            if (d===null) continue;
-            if (d===true) break;
-            pageData.push(d);
-        }
+            var dat = $('#main table').find('tr');
+            for (var i=0; i<dat.length; i++){
+                var d = parsePlayerInfo($, $(dat[i]));
+                if (d===null) continue;
+                if (d===true) break;
+                pageData.push(d);
+            }
 
-        cb(idx, idx2, pageData);
-    });
+            cb(idx, idx2, pageData);
+        });
 };
 
 function parsePlayerInfo ($, dat){
@@ -97,7 +116,6 @@ function scrapeLeague(league){
             }
             count--;
             console.log(squadData[idx].name);
-            //console.log(squadData[idx].url);
 
             if (count===0){
                 scrapeSquad(squadData);
@@ -144,3 +162,12 @@ var saveFile = function (dat){
 };
 
 scrapeLeague(DATA_League);
+// var cb = function (idx, dat){
+//   console.log(dat);
+//     jsonfile.writeFile('data/test.json', dat, function (err) {
+//       console.error(err)
+//     });
+// };
+// parseLeagueInfo(0,'http://www.footballsquads.co.uk/spain/2016-2017/spalali.htm', cb);
+
+//console.log(windows1252.encode(utf8.decode('Alav�s')));
