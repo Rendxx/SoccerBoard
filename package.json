@@ -23,7 +23,10 @@
     "style-loader": "*",
     "url-loader": "*",
     "file-loader": "*",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "tinyreq":"*",
+    "cheerio":"*",
+    "jsonfile": "*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
