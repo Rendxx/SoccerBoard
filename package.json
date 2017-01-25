@@ -29,7 +29,8 @@
     "jsonfile": "*",
     "windows-1252":"*",
     "utf8":"*",
-    "image-downloader":"*"
+    "image-downloader":"*",
+    "canvas":"*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

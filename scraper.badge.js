@@ -5,7 +5,9 @@ const jsonfile = require('jsonfile'),
     req = require("tinyreq"),
     request = require('request'),
     fs = require("fs"),
-    imageDownloader = require('image-downloader');
+    imageDownloader = require('image-downloader'),
+    Canvas = require("canvas"),
+    Image = Canvas.Image;
 
 // data ----------------------------------------------------------------
 var DATA_info = [
@@ -15,7 +17,7 @@ var DATA_info = [
 
 // function ------------------------------------------------------------
 function readJson(fileName) {
-    var contents = fs.readFileSync("data/squads/" + fileName + ".json");
+    var contents = fs.readFileSync("data/squads/" + fileName + '.json');
     var jsonContent = JSON.parse(contents);
     return jsonContent;
 };
@@ -24,11 +26,43 @@ function pad(num, size) {
     return ('00' + num).substr(-size);
 }
 
-var saveFile = function(dat, fileName) {
+function saveFile(dat, fileName) {
     for (var i = 0; i < dat.length; i++) {
-        jsonfile.writeFile('data/' + fileName + '.json', dat, function(err) {
+        jsonfile.writeFile('data/' + fileName, dat, function(err) {
             if (err) console.error(err)
         });
+    }
+};
+
+function createCanvas(bg, uri, w, h, clothIdx, cb) {
+    //console.log(bg, uri, w, h);
+    var canvas = new Canvas(w, h),
+        ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+    if (uri != null) {
+        req({
+                url: uri,
+                headers: {
+                    "user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"
+                },
+                encoding: "binary"
+            },
+            (err, body) => {
+                if (err) {
+                    throw err;
+                }
+                var img = new Image;
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0, w, h);
+                    cb && cb(canvas.toBuffer(), clothIdx);
+                };
+                img.src = new Buffer(body, "binary");;
+            }
+        );
+    } else {
+        cb && cb(canvas.toBuffer(), clothIdx);
     }
 };
 
@@ -67,15 +101,21 @@ function scrapeTeamBadge(teamName, folder, idx, teamDat) {
             if (cloth != null) {
                 for (var i = 0; i < cloth.length; i++) {
                     try {
-                        imageDownloader({
-                            url: "https:" + $($(cloth[i]).find("div div div")).eq(2).find("img").attr("src"),
-                            dest: 'data/' + folder + '/' + idx + "_" + i + '.png',
-                            done: function(err, filename, image) {
-                                if (err) {
-                                    throw err;
-                                }
-                                console.log('Cloth: ', filename);
-                            }
+                        var ele = $($(cloth[i]).find("div div div")).eq(2);
+                        var clothUri = ele.find("img").attr("src");
+                        var bg = $(ele).css("background-color");
+                        var w = parseInt($(ele).css("width"));
+                        var h = parseInt($(ele).css("height"));
+                        if (clothUri != null) clothUri = "https:" + clothUri;
+                        createCanvas(bg, clothUri, w, h, i, function(buffer, clothIdx) {
+                          var cloth_name = 'data/' + folder + '/' + idx + "_" + clothIdx + '.png';
+                          fs.writeFile(cloth_name, buffer, function(err) {
+                              if(err) {
+                                  return console.log(err);
+                              }
+
+                              console.log("[Saved] "+cloth_name);
+                          });
                         });
                     } catch (e) {
                         console.log(e.message);
@@ -89,6 +129,9 @@ function scrapeTeamBadge(teamName, folder, idx, teamDat) {
 
 function main(leagueInfo, LeagueName) {
     var i = 0;
+    if (!fs.existsSync("data/" + LeagueName)) {
+        fs.mkdirSync("data/" + LeagueName);
+    }
     var loadFunc = function() {
         var teamDat = leagueInfo[i];
         var idx = pad(i + 1, 2);
