@@ -28,7 +28,8 @@
     "cheerio":"*",
     "jsonfile": "*",
     "windows-1252":"*",
-    "utf8":"*"
+    "utf8":"*",
+    "image-downloader":"*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
