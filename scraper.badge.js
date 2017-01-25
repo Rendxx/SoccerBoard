@@ -11,9 +11,9 @@ const jsonfile = require('jsonfile'),
 
 // data ----------------------------------------------------------------
 var DATA_info = [
-    'English Premier League',
-    'French Ligue 1',
-    'German Bundesliga',
+    // 'English Premier League',
+    // 'French Ligue 1',
+    // 'German Bundesliga',
     'Italian Serie A',
     'Spanish LaLiga',
 ];
@@ -86,6 +86,7 @@ function getMainColor(ctx, w, h){
 };
 
 function scrapeTeamBadge(teamName, folder, idx, teamDat, cb) {
+  console.log ("https://en.wikipedia.org/wiki/" + teamName + "_F.C.")
     req({
             url: "https://en.wikipedia.org/wiki/" + teamName + "_F.C.",
             headers: {
