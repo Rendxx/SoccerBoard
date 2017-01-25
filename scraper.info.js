@@ -67,8 +67,9 @@ function parseLeagueInfo (idx, url, cb){
 };
 
 function parseSquadInfo (idx, idx2, url, cb){
+  console.log(url)
     req({
-          url:DATA_Squad_pre+url,
+          url:url,
           encoding: 'binary'
         },
         (err, body) => {
@@ -136,9 +137,10 @@ function scrapeSquad(squad){
         }
     }
     for (var i=0;i<squad.length;i++){
+        var pre = DATA_League[i].url.substring(0,DATA_League[i].url.lastIndexOf('/')+1);
         for (var j=0;j<squad[i].url.length;j++){
             var item = squad[i].url[j];
-            parseSquadInfo(i,j, item.url, function(idx1, idx2, dat){
+            parseSquadInfo(i,j, pre+item.url, function(idx1, idx2, dat){
                 info[idx1].squad[idx2]={
                   name: squad[idx1].url[idx2].name,
                   player: dat
@@ -155,8 +157,8 @@ function scrapeSquad(squad){
 
 var saveFile = function (dat){
     for (var i=0;i<dat.length;i++){
-        jsonfile.writeFile('data/'+dat[i].name+'.json', dat[i].squad, function (err) {
-          console.error(err)
+        jsonfile.writeFile('data/squads/'+dat[i].name+'.json', dat[i].squad, function (err) {
+          if (err)console.error(err)
         });
     }
 };
