@@ -12,6 +12,10 @@ const jsonfile = require('jsonfile'),
 // data ----------------------------------------------------------------
 var DATA_info = [
     'English Premier League',
+    'French Ligue 1',
+    'German Bundesliga',
+    'Italian Serie A',
+    'Spanish LaLiga',
 ];
 
 
@@ -56,17 +60,32 @@ function createCanvas(bg, uri, w, h, clothIdx, cb) {
                 var img = new Image;
                 img.onload = function() {
                     ctx.drawImage(img, 0, 0, w, h);
-                    cb && cb(canvas.toBuffer(), clothIdx);
+                    cb && cb(canvas, ctx, clothIdx);
                 };
                 img.src = new Buffer(body, "binary");;
             }
         );
     } else {
-        cb && cb(canvas.toBuffer(), clothIdx);
+        cb && cb(canvas, ctx, clothIdx);
     }
 };
 
-function scrapeTeamBadge(teamName, folder, idx, teamDat) {
+function getMainColor(ctx, w, h){
+    var data = ctx.getImageData(0, 0, w, h);
+    var length = data.data.length;
+    var rgb = {'ffffff': -w*4};
+    var max = 'ffffff';
+    var i=0;
+    while ( i < length ) {
+        var c = pad(data.data[i].toString(16),2)+ pad(data.data[i+1].toString(16),2)+ pad(data.data[i+2].toString(16),2);
+        rgb[c]=(rgb[c]||0)+1;
+        if (rgb[c]>rgb[max])max=c;
+        i+=4;
+    }
+    return "#"+max;
+};
+
+function scrapeTeamBadge(teamName, folder, idx, teamDat, cb) {
     req({
             url: "https://en.wikipedia.org/wiki/" + teamName + "_F.C.",
             headers: {
@@ -98,6 +117,7 @@ function scrapeTeamBadge(teamName, folder, idx, teamDat) {
 
             var cloth = $('#content #bodyContent #mw-content-text .infobox.vcard .toccolours table td');
             var colorDat = [];
+            var count = cloth.length;
             if (cloth != null) {
                 for (var i = 0; i < cloth.length; i++) {
                     try {
@@ -107,14 +127,18 @@ function scrapeTeamBadge(teamName, folder, idx, teamDat) {
                         var w = parseInt($(ele).css("width"));
                         var h = parseInt($(ele).css("height"));
                         if (clothUri != null) clothUri = "https:" + clothUri;
-                        createCanvas(bg, clothUri, w, h, i, function(buffer, clothIdx) {
+                        createCanvas(bg, clothUri, w, h, i, function(canvas, ctx, clothIdx) {
                           var cloth_name = 'data/' + folder + '/' + idx + "_" + clothIdx + '.png';
-                          fs.writeFile(cloth_name, buffer, function(err) {
+                          var cloth_color = getMainColor(ctx, canvas.width, canvas.height);
+                          colorDat[clothIdx]=cloth_color;
+                          console.log(cloth_color);
+                          fs.writeFile(cloth_name, canvas.toBuffer(), function(err) {
                               if(err) {
                                   return console.log(err);
                               }
 
                               console.log("[Saved] "+cloth_name);
+                              if (--count===0) cb && cb();
                           });
                         });
                     } catch (e) {
@@ -123,7 +147,7 @@ function scrapeTeamBadge(teamName, folder, idx, teamDat) {
                 }
             }
             teamDat['idx'] = idx;
-            teamDat['color'] = [];
+            teamDat['color'] = colorDat;
         });
 };
 
@@ -135,12 +159,14 @@ function main(leagueInfo, LeagueName) {
     var loadFunc = function() {
         var teamDat = leagueInfo[i];
         var idx = pad(i + 1, 2);
-        scrapeTeamBadge(teamDat.name, LeagueName, idx, teamDat);
-        i++;
-        if (i < leagueInfo.length) setTimeout(loadFunc, 1000);
-        else {
-            saveFile(leagueInfo, LeagueName + '.json');
-        }
+        scrapeTeamBadge(teamDat.name, LeagueName, idx, teamDat, function(){
+            i++;
+            if (i < leagueInfo.length){
+                setTimeout(loadFunc, 1000);
+            } else {
+                saveFile(leagueInfo, LeagueName + '.json');
+            }
+        });
     };
     loadFunc();
 };
