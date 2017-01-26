@@ -14,9 +14,13 @@ var DATA_info = [
     // 'English Premier League',
     // 'French Ligue 1',
     // 'German Bundesliga',
-    'Italian Serie A',
+    // 'Italian Serie A',
     'Spanish LaLiga',
 ];
+
+var wiki = {
+
+};
 
 
 // function ------------------------------------------------------------
@@ -39,7 +43,6 @@ function saveFile(dat, fileName) {
 };
 
 function createCanvas(bg, uri, w, h, clothIdx, cb) {
-    //console.log(bg, uri, w, h);
     var canvas = new Canvas(w, h),
         ctx = canvas.getContext('2d');
 
@@ -85,22 +88,23 @@ function getMainColor(ctx, w, h){
     return "#"+max;
 };
 
-function scrapeTeamBadge(teamName, folder, idx, teamDat, cb) {
-  console.log ("https://en.wikipedia.org/wiki/" + teamName + "_F.C.")
+function _scrapeTeamBadge(url, folder, idx, teamDat, cb) {
+    console.log(url);
     req({
-            url: "https://en.wikipedia.org/wiki/" + teamName + "_F.C.",
+            url: url,
             headers: {
                 "user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"
             }
         },
-        (err, body) => {
-            console.log(teamName + "-------------------------------")
+        (err, body, res) => {
             if (err) {
                 return cb(err);
             }
             let $ = cheerio.load(body);
 
+            console.log(res);
             var badge = $('#content #bodyContent #mw-content-text .infobox.vcard .image img');
+            if ($(badge).attr('src')==null){return cb("Empty");}
             try {
                 imageDownloader({
                     url: "https:" + $(badge).attr('src'),
@@ -109,7 +113,7 @@ function scrapeTeamBadge(teamName, folder, idx, teamDat, cb) {
                         if (err) {
                             throw err;
                         }
-                        console.log('Badge: ', filename);
+                        //console.log('Badge: ', filename);
                     }
                 });
             } catch (e) {
@@ -119,6 +123,7 @@ function scrapeTeamBadge(teamName, folder, idx, teamDat, cb) {
             var cloth = $('#content #bodyContent #mw-content-text .infobox.vcard .toccolours table td');
             var colorDat = [];
             var count = cloth.length;
+            if (cloth==null||count==0){return cb("Empty");}
             if (cloth != null) {
                 for (var i = 0; i < cloth.length; i++) {
                     try {
@@ -132,14 +137,17 @@ function scrapeTeamBadge(teamName, folder, idx, teamDat, cb) {
                           var cloth_name = 'data/' + folder + '/' + idx + "_" + clothIdx + '.png';
                           var cloth_color = getMainColor(ctx, canvas.width, canvas.height);
                           colorDat[clothIdx]=cloth_color;
-                          console.log(cloth_color);
+                          //console.log(cloth_color);
                           fs.writeFile(cloth_name, canvas.toBuffer(), function(err) {
                               if(err) {
                                   return console.log(err);
                               }
 
-                              console.log("[Saved] "+cloth_name);
-                              if (--count===0) cb && cb();
+                              //console.log("[Saved] "+cloth_name);
+                              if (--count===0){
+                                 cb && cb();
+                                 //teamDat['wiki'] = res.request.uri;
+                               }
                           });
                         });
                     } catch (e) {
@@ -151,8 +159,29 @@ function scrapeTeamBadge(teamName, folder, idx, teamDat, cb) {
             teamDat['color'] = colorDat;
         });
 };
+function scrapeTeamBadge(folder, idx, teamDat, cb) {
+    console.log(teamDat.name+'----------------------------------------------');
+    var name1 = teamDat.name.replace(/-/g, ' ').replace(/&/g, ' ');
+    var name2 = teamDat.officialName.replace(/-/g, ' ').replace(/&/g, ' ');
+    var urlList = [
+        "https://en.wikipedia.org/wiki/" + name1,
+        "https://en.wikipedia.org/wiki/" + name1 + "_F.C.",
+        "https://en.wikipedia.org/wiki/" + name2,
+        "https://en.wikipedia.org/wiki/" + name1+ " CF",
+    ];
+    var i = 0;
+    var callback = function (err){
+        if (err==null) cb && cb();
+        else if (i>=urlList.length) cb &&cb("Can't find available page");
+        else{
+          _scrapeTeamBadge(urlList[i], folder, idx, teamDat, callback);
+          i++;
+        }
+    };
+    callback(true);
+};
 
-function main(leagueInfo, LeagueName) {
+function main(leagueInfo, LeagueName, cb) {
     var i = 0;
     if (!fs.existsSync("data/" + LeagueName)) {
         fs.mkdirSync("data/" + LeagueName);
@@ -160,12 +189,15 @@ function main(leagueInfo, LeagueName) {
     var loadFunc = function() {
         var teamDat = leagueInfo[i];
         var idx = pad(i + 1, 2);
-        scrapeTeamBadge(teamDat.name, LeagueName, idx, teamDat, function(){
+        scrapeTeamBadge(LeagueName, idx, teamDat, function(err){
+            if (err) console.log('[ERROR] '+err);
             i++;
+            return;
             if (i < leagueInfo.length){
                 setTimeout(loadFunc, 1000);
             } else {
                 saveFile(leagueInfo, LeagueName + '.json');
+                cb();
             }
         });
     };
@@ -173,6 +205,17 @@ function main(leagueInfo, LeagueName) {
 };
 
 //------------------------------------------------------------------
-for (var i = 0; i < DATA_info.length; i++) {
-    main(readJson(DATA_info[i]), DATA_info[i]);
-}
+
+var i = 0;
+
+var loadInfo = function (){
+  main(readJson(DATA_info[i]), DATA_info[i], function (){
+      i++;
+      if (i<DATA_info.length) loadInfo();
+      else{
+        console.log('');
+        console.log('[DONE] ---------------------------------');
+      }
+  });
+};
+loadInfo();

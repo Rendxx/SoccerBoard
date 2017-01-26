@@ -36,8 +36,10 @@ var DATA_Squad_pre = 'http://www.footballsquads.co.uk/eng/2016-2017/';
 function encodeHtml (body){
   let body_encode ='';
   try{
-    body_encode=windows1252.encode(body)
+    body_encode=windows1252.encode(body,{'mode':'html'})
   }catch(e){
+    console.log(e);
+      console.log('utf8');
     body_encode=utf8.encode(body);
   }
   return body_encode;
@@ -67,7 +69,6 @@ function parseLeagueInfo (idx, url, cb){
 };
 
 function parseSquadInfo (idx, idx2, url, cb){
-  console.log(url)
     req({
           url:url,
           encoding: 'binary'
@@ -75,6 +76,7 @@ function parseSquadInfo (idx, idx2, url, cb){
         (err, body) => {
             if (err) { return cb(err); }
             let $ = cheerio.load(encodeHtml(body));
+            let officialName = $($('#main').children('h3')[0]).text().replace(/Official/i,'').replace(/Name/i,'').replace(/\r\n/g,' ').replace(/\r/g,' ').replace(/\n/g,' ').replace(/:/,'').trim();
             let pageData = [];
 
             var dat = $('#main table').find('tr');
@@ -85,7 +87,7 @@ function parseSquadInfo (idx, idx2, url, cb){
                 pageData.push(d);
             }
 
-            cb(idx, idx2, pageData);
+            cb(idx, idx2, pageData, officialName);
         });
 };
 
@@ -140,9 +142,10 @@ function scrapeSquad(squad){
         var pre = DATA_League[i].url.substring(0,DATA_League[i].url.lastIndexOf('/')+1);
         for (var j=0;j<squad[i].url.length;j++){
             var item = squad[i].url[j];
-            parseSquadInfo(i,j, pre+item.url, function(idx1, idx2, dat){
+            parseSquadInfo(i,j, pre+item.url, function(idx1, idx2, dat, officialName){
                 info[idx1].squad[idx2]={
                   name: squad[idx1].url[idx2].name,
+                  officialName: officialName,
                   player: dat
                 }
                 count--;
@@ -164,12 +167,16 @@ var saveFile = function (dat){
 };
 
 scrapeLeague(DATA_League);
-// var cb = function (idx, dat){
-//   console.log(dat);
-//     jsonfile.writeFile('data/test.json', dat, function (err) {
+// var cb = function (idx1,idx2, dat, name){
+//   console.log(name);
+//   var d = {
+//     name:name,
+//     player:dat
+//   }
+//     jsonfile.writeFile('data/test.json', d, function (err) {
 //       console.error(err)
 //     });
 // };
-// parseLeagueInfo(0,'http://www.footballsquads.co.uk/spain/2016-2017/spalali.htm', cb);
+//parseSquadInfo(0,0,'http://www.footballsquads.co.uk/france/2016-2017/ligue1/lille.htm', cb);
 
 //console.log(windows1252.encode(utf8.decode('Alav�s')));
