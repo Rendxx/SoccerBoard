@@ -53,13 +53,13 @@ function _scrapeTeamWiki(url, idx, teamDat, cb) {
 
 function scrapeTeamWiki(idx, teamDat, cb) {
     console.log(teamDat.name+'----------------------------------------------');
-    var name1 = teamDat.name.replace(/-/g, ' ').replace(/&/g, ' ').replace(/  +/g, ' ').replace(/ /g, '_');
-    var name2 = teamDat.officialName.replace(/-/g, ' ').replace(/&/g, ' ').replace(/  +/g, ' ').replace(/ /g, '_');
+    var name1 = encodeURIComponent(teamDat.name.replace(/-/g, ' ').replace(/&/g, ' ').replace(/  +/g, ' ').replace(/ /g, '_'));
+    var name2 = encodeURIComponent(teamDat.officialName.replace(/-/g, ' ').replace(/&/g, ' ').replace(/  +/g, ' ').replace(/ /g, '_'));
     var urlList = [
         "https://en.wikipedia.org/wiki/" + name1,
         "https://en.wikipedia.org/wiki/" + name1 + "_F.C.",
         "https://en.wikipedia.org/wiki/" + name2,
-        "https://en.wikipedia.org/wiki/" + name1+ " CF",
+        "https://en.wikipedia.org/wiki/" + name1+ "_CF",
     ];
     var i = 0;
     var callback = function (successed){
