@@ -11,16 +11,13 @@ const jsonfile = require('jsonfile'),
 
 // data ----------------------------------------------------------------
 var DATA_info = [
-    // 'English Premier League',
-    // 'French Ligue 1',
-    // 'German Bundesliga',
-    // 'Italian Serie A',
+    'English Premier League',
+    'French Ligue 1',
+    'German Bundesliga',
+    'Italian Serie A',
     'Spanish LaLiga',
 ];
 
-var wiki = {
-
-};
 
 
 // function ------------------------------------------------------------
@@ -89,7 +86,7 @@ function getMainColor(ctx, w, h){
 };
 
 function _scrapeTeamBadge(url, folder, idx, teamDat, cb) {
-    console.log(url);
+    //console.log(url);
     req({
             url: url,
             headers: {
@@ -102,13 +99,12 @@ function _scrapeTeamBadge(url, folder, idx, teamDat, cb) {
             }
             let $ = cheerio.load(body);
 
-            console.log(res);
             var badge = $('#content #bodyContent #mw-content-text .infobox.vcard .image img');
             if ($(badge).attr('src')==null){return cb("Empty");}
             try {
                 imageDownloader({
                     url: "https:" + $(badge).attr('src'),
-                    dest: 'data/' + folder + '/' + idx + '.png',
+                    dest: 'data/image/' + folder + '/' + idx + '.png',
                     done: function(err, filename, image) {
                         if (err) {
                             throw err;
@@ -134,7 +130,7 @@ function _scrapeTeamBadge(url, folder, idx, teamDat, cb) {
                         var h = parseInt($(ele).css("height"));
                         if (clothUri != null) clothUri = "https:" + clothUri;
                         createCanvas(bg, clothUri, w, h, i, function(canvas, ctx, clothIdx) {
-                          var cloth_name = 'data/' + folder + '/' + idx + "_" + clothIdx + '.png';
+                          var cloth_name = 'data/image/' + folder + '/' + idx + "_" + clothIdx + '.png';
                           var cloth_color = getMainColor(ctx, canvas.width, canvas.height);
                           colorDat[clothIdx]=cloth_color;
                           //console.log(cloth_color);
@@ -159,45 +155,35 @@ function _scrapeTeamBadge(url, folder, idx, teamDat, cb) {
             teamDat['color'] = colorDat;
         });
 };
-function scrapeTeamBadge(folder, idx, teamDat, cb) {
-    console.log(teamDat.name+'----------------------------------------------');
-    var name1 = teamDat.name.replace(/-/g, ' ').replace(/&/g, ' ');
-    var name2 = teamDat.officialName.replace(/-/g, ' ').replace(/&/g, ' ');
-    var urlList = [
-        "https://en.wikipedia.org/wiki/" + name1,
-        "https://en.wikipedia.org/wiki/" + name1 + "_F.C.",
-        "https://en.wikipedia.org/wiki/" + name2,
-        "https://en.wikipedia.org/wiki/" + name1+ " CF",
-    ];
-    var i = 0;
+function scrapeTeamBadge(folder, wiki, idx, teamDat, cb) {
+    //console.log('- '+teamDat.name);
+    var url = wiki[teamDat.name];
     var callback = function (err){
         if (err==null) cb && cb();
-        else if (i>=urlList.length) cb &&cb("Can't find available page");
-        else{
-          _scrapeTeamBadge(urlList[i], folder, idx, teamDat, callback);
-          i++;
-        }
+        else cb &&cb("Can't find available page");
     };
-    callback(true);
+    _scrapeTeamBadge(url, folder, idx, teamDat, callback);
 };
 
-function main(leagueInfo, LeagueName, cb) {
+function main(leagueInfo, wiki, LeagueName) {
     var i = 0;
-    if (!fs.existsSync("data/" + LeagueName)) {
-        fs.mkdirSync("data/" + LeagueName);
+    if (!fs.existsSync("data/image")) {
+        fs.mkdirSync("data/image");
+    }
+    if (!fs.existsSync("data/image/" + LeagueName)) {
+        fs.mkdirSync("data/image/" + LeagueName);
     }
     var loadFunc = function() {
         var teamDat = leagueInfo[i];
         var idx = pad(i + 1, 2);
-        scrapeTeamBadge(LeagueName, idx, teamDat, function(err){
-            if (err) console.log('[ERROR] '+err);
+        scrapeTeamBadge(LeagueName, wiki, idx, teamDat, function(err){
+            if (err) console.log('[ERROR] '+LeagueName+": "+teamDat.name+': '+err);
+            else console.log(LeagueName+": "+teamDat.name+': DONE');
             i++;
-            return;
             if (i < leagueInfo.length){
                 setTimeout(loadFunc, 1000);
             } else {
                 saveFile(leagueInfo, LeagueName + '.json');
-                cb();
             }
         });
     };
@@ -209,13 +195,10 @@ function main(leagueInfo, LeagueName, cb) {
 var i = 0;
 
 var loadInfo = function (){
-  main(readJson(DATA_info[i]), DATA_info[i], function (){
-      i++;
-      if (i<DATA_info.length) loadInfo();
-      else{
-        console.log('');
-        console.log('[DONE] ---------------------------------');
-      }
-  });
+  var dat = {};
+  var wiki = readJson('wiki');
+  for (var i=0;i<DATA_info.length;i++){
+    main(readJson(DATA_info[i]), wiki[DATA_info[i]], DATA_info[i]);
+  }
 };
 loadInfo();

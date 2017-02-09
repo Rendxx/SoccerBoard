@@ -60,6 +60,7 @@ function scrapeTeamWiki(idx, teamDat, cb) {
         "https://en.wikipedia.org/wiki/" + name1 + "_F.C.",
         "https://en.wikipedia.org/wiki/" + name2,
         "https://en.wikipedia.org/wiki/" + name1+ "_CF",
+        "https://en.wikipedia.org/wiki/FC_" + name1,
     ];
     var i = 0;
     var callback = function (successed){
