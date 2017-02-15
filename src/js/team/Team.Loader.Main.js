@@ -34,7 +34,7 @@ var LoaderMain = React.createClass({
     return(
       <div className={className} ref="container">
         <div className="teamLoader-wrap">
-          <Title content="Choose a Team" width="500" margin="-2" />
+          <Title content="Choose a Team" width="500" height="50" margin="-2" />
           <div className="teamLoader-option teamLoader-option-real"></div>
           <div className="teamLoader-option teamLoader-option-default"></div>
           <div className="teamLoader-option teamLoader-option-no"></div>
