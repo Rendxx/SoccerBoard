@@ -1,5 +1,6 @@
 require('LESS/Team.Loader.Main.less');
 var React = require('react');
+var Title = require('COMPONENT/Component.Title.js');
 
 var LoaderMain = React.createClass({
   /* Public Method *********************************************************************/
@@ -33,7 +34,7 @@ var LoaderMain = React.createClass({
     return(
       <div className={className} ref="container">
         <div className="teamLoader-wrap">
-          <div className="teamLoader-title">Choose a Team</div>
+          <Title content="Choose a Team" width="500" margin="-2" />
           <div className="teamLoader-option teamLoader-option-real"></div>
           <div className="teamLoader-option teamLoader-option-default"></div>
           <div className="teamLoader-option teamLoader-option-no"></div>
